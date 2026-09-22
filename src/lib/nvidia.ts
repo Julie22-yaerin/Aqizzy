@@ -47,7 +47,7 @@ QUY ĐỊNH PHẢN HỒI:
   "npc_reply": "Minh Khang: '...'\n\nLinh Chi: '...'",
   "score_delta": { "c": 0, "o": 0, "r": 0, "e": 0 },
   "is_crisis_resolved": boolean,
-  "coaching_tip": "Nhận xét ngắn 1 câu về kỹ năng Control (Kiểm soát) của học sinh"
+  "coaching_tip": "Dù học sinh trả lời đúng hay sai, BẮT BUỘC cung cấp hướng dẫn từng bước (1, 2, 3...) cách xử lý đúng tình huống này. Các bước phải dễ hiểu, dễ áp dụng."
 }`,
 
   'ownership-homeroom-period': `Bạn là Động cơ Nhập vai & Đánh giá AQ cho Học sinh Cấp 2 Việt Nam (Lớp 8-9).
@@ -71,7 +71,7 @@ QUY ĐỊNH PHẢN HỒI:
   "npc_reply": "Lời thoại của Cô Mai (và phản ứng lí nhí biết ơn của Nam nếu có)",
   "score_delta": { "c": 0, "o": 0, "r": 0, "e": 0 },
   "is_crisis_resolved": boolean,
-  "coaching_tip": "Nhận xét sư phạm ngắn 1 câu về kỹ năng Ownership (Làm chủ trách nhiệm)"
+  "coaching_tip": "Dù học sinh trả lời đúng hay sai, BẮT BUỘC cung cấp hướng dẫn từng bước (1, 2, 3...) cách xử lý đúng tình huống này. Các bước phải dễ hiểu, dễ áp dụng."
 }`
 };
 
@@ -99,21 +99,21 @@ function simulateVietnameseResponse(
           : "Minh Khang: 'Nghe cũng có lý... Nhưng mà mai cô có chịu chấm bài vẽ sơ đồ thay vì nặn đất sét 3D không mày? Tao run quá à!'\n\nLinh Chi: 'Tao thấy ít ra có bài nộp chỉn chu vẫn hơn là mai lên đứng chịu 0 điểm. Giờ phân công cụ thể đứa nào làm gì đi để còn bắt tay vào làm!'",
         score_delta: { c: 14, o: 5, r: 2, e: 4 },
         is_crisis_resolved: isResolved,
-        coaching_tip: "Rất xuất sắc! Bạn đã chuyển hóa cơn hoảng loạn tập thể thành kế hoạch hành động khả thi trong tầm kiểm soát (Control)."
+        coaching_tip: `Rất xuất sắc! Cách xử lý chuẩn:\n1. Bình tĩnh trấn an các bạn\n2. Đề xuất giải pháp có thể làm ngay (vẽ 2D)\n3. Phân công công việc rõ ràng\n4. Hẹn sáng mai giải thích với cô.`
       };
     } else if (isPanickingOrComplaining) {
       return {
         npc_reply: "Linh Chi: 'Đấy thấy chưa, tao đã bảo rồi mà! Càng nghĩ càng thấy ức chế, cô muốn cho 0 điểm thì cho luôn đi, tao off mạng đi ngủ đây!'\n\nMinh Khang: 'Trời ơi Chi ơi đừng bỏ nhóm mà! Tao sợ mẹ tao la lắm, hu hu giờ biết làm sao bây giờ... 😭😭'",
         score_delta: { c: -10, o: -4, r: -5, e: -6 },
         is_crisis_resolved: false,
-        coaching_tip: "Cảnh báo Low AQ (Control): Khi bạn hùa theo cảm xúc tiêu cực hoặc trách móc ngoại cảnh, nhóm sẽ mất hoàn toàn quyền kiểm soát tình huống."
+        coaching_tip: `Cách xử lý tốt hơn:\n1. Hít thở sâu để không bị cuốn theo sự hoảng loạn\n2. Trấn an tinh thần các bạn\n3. Tập trung vào việc mình CÓ THỂ làm bây giờ (vẽ giấy, dùng đồ có sẵn)\n4. Lập kế hoạch phân công cho ngày mai.`
       };
     } else {
       return {
         npc_reply: "Minh Khang: 'Giờ tính sao đây cả nhà ơi? 9h15 rồi, sáng mai 6h45 là phải nộp bài rồi đó!'\n\nLinh Chi: 'Mày có cao kiến gì cụ thể không, chứ nói chung chung nãy giờ tao sốt ruột muốn nổ tung rồi nè!'",
         score_delta: { c: 3, o: 1, r: 0, e: 0 },
         is_crisis_resolved: false,
-        coaching_tip: "Hãy đề xuất một giải pháp thực tế cụ thể (ví dụ: vẽ sơ đồ giải phẫu 2D trên giấy A3 có sẵn) để định hướng cho nhóm."
+        coaching_tip: `Hướng xử lý tiếp theo:\n1. Dừng than vãn và tập trung vào giải pháp\n2. Nhìn quanh nhà xem có vật liệu gì thay thế được (giấy, bút màu...)\n3. Đề xuất nhóm chuyển hướng sang làm mô hình 2D\n4. Phân công người vẽ, người thuyết trình.`
       };
     }
   } else {
@@ -130,21 +130,21 @@ function simulateVietnameseResponse(
           : "Cô Mai: 'Em biết nhận trách nhiệm chưa sâu sát với tổ viên là điều đáng khen. Nhưng trách nhiệm của người tổ trưởng không chỉ dừng lại ở lời xin lỗi. Em và tổ 3 dự định có hành động thiết thực gì để chuộc lỗi và gỡ lại 10 điểm thi đua cho lớp?'",
         score_delta: { c: 6, o: 18, r: 4, e: 5 },
         is_crisis_resolved: isResolved,
-        coaching_tip: "Đỉnh cao Ownership (Làm chủ trách nhiệm)! Dám nhận lỗi lãnh đạo và chủ động xin nhận việc khắc phục hậu quả cùng đồng đội."
+        coaching_tip: `Đỉnh cao Ownership! Cách làm chuẩn:\n1. Dũng cảm đứng lên nhận lỗi với tư cách tổ trưởng\n2. Không đổ lỗi hoàn toàn cho bạn Nam\n3. Đề xuất phương án chuộc lỗi (xin trực nhật)\n4. Đưa ra giải pháp phòng ngừa cho tương lai.`
       };
     } else if (deflectsBlame) {
       return {
         npc_reply: "Cô Mai đập mạnh cây thước xuống bàn giáo viên: 'Em thôi ngay cái thái độ đùn đẩy phủi tay đó đi! Ai không biết là bạn Nam xả rác? Nhưng cô đang hỏi em với tư cách là Tổ Trưởng! Nếu tổ viên vi phạm mà em chỉ biết nói \"em không biết, không phải lỗi của em\" thì cô bầu em làm cán bộ làm gì?! Thái độ vô trách nhiệm của em còn đáng trách hơn cả việc xả rác của Nam!'\n\nNam: (Càng cúi đầu sát mặt bàn, run rẩy không dám ngẩng lên)",
         score_delta: { c: -5, o: -18, r: -5, e: -4 },
         is_crisis_resolved: false,
-        coaching_tip: "Báo động đỏ Low Ownership: Đùn đẩy hoàn toàn lỗi lầm cho đồng đội làm phá vỡ lòng tin và thể hiện tư duy trốn tránh trách nhiệm."
+        coaching_tip: `Cách xử lý tốt hơn:\n1. Nhận thức mình là tổ trưởng nên có một phần trách nhiệm quản lý\n2. Xin lỗi cô vì chưa nhắc nhở bạn kịp thời\n3. Không mắng mỏ bạn ngay lúc đó\n4. Chủ động xin cùng bạn dọn dẹp để chuộc lỗi.`
       };
     } else {
       return {
         npc_reply: "Cô Mai: 'Cô đang chờ câu trả lời rõ ràng từ em. Em là người đứng đầu Tổ 3, em nhìn nhận thế nào về việc tổ mình làm cả lớp mất điểm thi đua tuần này?'",
         score_delta: { c: 1, o: 3, r: 0, e: 0 },
         is_crisis_resolved: false,
-        coaching_tip: "Hãy dũng cảm đứng dậy nhận một phần trách nhiệm bao quát và đề xuất phương án trực nhật sửa sai cùng bạn Nam."
+        coaching_tip: `Hướng xử lý tiếp theo:\n1. Đứng thẳng, nhìn vào mắt cô giáo\n2. Dũng cảm nhận lỗi quản lý của tổ trưởng\n3. Xin lỗi cô và lớp\n4. Đề xuất phương án cùng bạn Nam trực nhật sửa sai.`
       };
     }
   }

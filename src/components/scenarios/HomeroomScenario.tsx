@@ -294,7 +294,7 @@ export default function HomeroomScenario() {
                       </span>
                     )}
                     {msg.coaching_tip && (
-                      <span className="text-[11px] text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded-md italic">
+                      <span className="text-[11px] text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded-md italic whitespace-pre-wrap block">
                         💡 {msg.coaching_tip}
                       </span>
                     )}
