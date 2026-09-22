@@ -131,51 +131,50 @@ export default function SwipeCardScenario({ cards }: Props) {
 
             {/* Interactive Swipe Card Stack */}
             <div className="relative h-72 w-full flex items-center justify-center my-2">
-              <AnimatePresence mode="wait">
-                {currentCard && (
-                  <motion.div
-                    key={currentCard.id}
-                    drag={showExplanation ? false : 'x'}
-                    dragConstraints={{ left: -100, right: 100 }}
-                    onDragEnd={(_, info) => {
-                      if (info.offset.x > 80) handleDecision('right');
-                      else if (info.offset.x < -80) handleDecision('left');
-                    }}
-                    initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                    animate={{ scale: 1, opacity: 1, y: 0 }}
-                    exit={{ scale: 0.8, opacity: 0 }}
-                    whileDrag={{ scale: 1.03, rotate: 4 }}
-                    className="absolute inset-x-2 sm:inset-x-8 top-0 bottom-0 bg-white rounded-3xl border-2 border-slate-200 shadow-2xl p-6 sm:p-8 flex flex-col justify-between cursor-grab active:cursor-grabbing select-none"
-                  >
-                    {/* Top Card Tag */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
-                        💭 Luồng suy nghĩ #{currentIndex + 1}
-                      </span>
-                      <span className="text-xs text-slate-400 font-medium">
-                        Kéo sang Trái hoặc Phải
-                      </span>
-                    </div>
+              {currentCard && (
+                <motion.div
+                  key={currentCard.id}
+                  drag={showExplanation ? false : 'x'}
+                  dragConstraints={{ left: -100, right: 100 }}
+                  dragSnapToOrigin={true}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x > 80) handleDecision('right');
+                    else if (info.offset.x < -80) handleDecision('left');
+                  }}
+                  initial={{ scale: 0.92, opacity: 0, y: 15 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                  whileDrag={{ scale: 1.03, rotate: 4 }}
+                  className="absolute inset-x-2 sm:inset-x-8 top-0 bottom-0 bg-white rounded-3xl border-2 border-slate-200 shadow-2xl p-6 sm:p-8 flex flex-col justify-between cursor-grab active:cursor-grabbing select-none"
+                >
+                  {/* Top Card Tag */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                      💭 Luồng suy nghĩ #{currentIndex + 1}
+                    </span>
+                    <span className="text-xs text-slate-400 font-medium">
+                      Kéo sang Trái hoặc Phải
+                    </span>
+                  </div>
 
-                    {/* Thought content */}
-                    <div className="my-auto py-4 text-center">
-                      <p className="text-lg sm:text-xl font-bold text-slate-800 leading-snug font-serif">
-                        &ldquo;{currentCard.thought}&rdquo;
-                      </p>
-                    </div>
+                  {/* Thought content */}
+                  <div className="my-auto py-4 text-center">
+                    <p className="text-lg sm:text-xl font-bold text-slate-800 leading-snug font-serif">
+                      &ldquo;{currentCard.thought}&rdquo;
+                    </p>
+                  </div>
 
-                    {/* Drag helper stamps preview */}
-                    <div className="flex justify-between items-center text-xs font-bold text-slate-400 pt-2 border-t border-slate-100">
-                      <span className="flex items-center gap-1 text-rose-600">
-                        <X className="w-4 h-4" /> KÉO TRÁI (LOẠI BỎ)
-                      </span>
-                      <span className="flex items-center gap-1 text-emerald-600">
-                        KÉO PHẢI (GIỮ LẠI) <Check className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  {/* Drag helper stamps preview */}
+                  <div className="flex justify-between items-center text-xs font-bold text-slate-400 pt-2 border-t border-slate-100">
+                    <span className="flex items-center gap-1 text-rose-600">
+                      <X className="w-4 h-4" /> KÉO TRÁI (LOẠI BỎ)
+                    </span>
+                    <span className="flex items-center gap-1 text-emerald-600">
+                      KÉO PHẢI (GIỮ LẠI) <Check className="w-4 h-4" />
+                    </span>
+                  </div>
+                </motion.div>
+              )}
             </div>
 
             {/* Tactical Action Buttons for Mobile / Click */}
