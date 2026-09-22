@@ -2,7 +2,7 @@ import React from 'react';
 import ZaloChatScenario from '@/components/scenarios/ZaloChatScenario';
 
 export const metadata = {
-  title: 'Control (C) - The 9 PM Sunday Zalo Panic | The Lyceum',
+  title: 'Control (C) - The 9 PM Sunday Zalo Panic | Aqizzy',
   description: 'Tập trung vào điều bạn có thể kiểm soát ngay lúc này trước thông báo đổi đề tài gấp.',
 };
 

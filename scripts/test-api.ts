@@ -1,5 +1,5 @@
 /**
- * Verification script for The Lyceum Database and API Layer
+ * Verification script for Aqizzy Database and API Layer
  * Tests:
  * 1. Supabase schema definition & seed scenario data integrity
  * 2. NVIDIA NIM simulation & Vietnamese dialogue generator

@@ -3,7 +3,7 @@ import './globals.css';
 import Header from '@/components/Header';
 
 export const metadata: Metadata = {
-  title: 'The Lyceum - Nền tảng Đào tạo AQ Cấp 2 qua Khung CORE',
+  title: 'Aqizzy - Nền tảng Đào tạo AQ Cấp 2 qua Khung CORE',
   description: 'Nền tảng AI giáo dục rèn luyện Trí tuệ Nghịch cảnh (Adversity Quotient) dành cho học sinh Cấp 2 Việt Nam (Lớp 6 - 9) theo mô hình CORE.',
 };
 

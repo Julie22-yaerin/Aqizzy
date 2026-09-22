@@ -22,7 +22,7 @@ export default function Header() {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-bold text-lg text-slate-900 tracking-tight group-hover:text-brand-600 transition-colors">
-                The Lyceum
+                Aqizzy
               </span>
               <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 border border-brand-200">
                 AQ Cấp 2

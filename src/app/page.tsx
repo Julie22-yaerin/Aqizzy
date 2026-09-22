@@ -81,7 +81,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-            The Lyceum
+            Aqizzy
           </h1>
           <p className="text-lg sm:text-xl text-indigo-200 font-medium">
             Huấn luyện Trí tuệ Nghịch cảnh (Adversity Quotient - AQ) qua Khung CORE

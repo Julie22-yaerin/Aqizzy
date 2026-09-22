@@ -3,7 +3,7 @@ import SwipeCardScenario from '@/components/scenarios/SwipeCardScenario';
 import { getScenarioById } from '@/lib/scenariosData';
 
 export const metadata = {
-  title: 'Reach (R) - The 45-Minute Math Test Disaster | The Lyceum',
+  title: 'Reach (R) - The 45-Minute Math Test Disaster | Aqizzy',
   description: 'Khoanh vùng ảnh hưởng: Phân loại suy nghĩ tiêu cực bằng cơ chế Swipe Cards.',
 };
 

@@ -3,7 +3,7 @@ import ResourceScenario from '@/components/scenarios/ResourceScenario';
 import { getScenarioById } from '@/lib/scenariosData';
 
 export const metadata = {
-  title: 'Endurance (E) - The May Exam Crush | The Lyceum',
+  title: 'Endurance (E) - The May Exam Crush | Aqizzy',
   description: 'Quản lý tài nguyên Năng lượng & Căng thẳng sống sót qua 7 ngày ôn thi cao điểm.',
 };
 
