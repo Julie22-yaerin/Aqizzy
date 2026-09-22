@@ -2,13 +2,25 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAQStore } from '@/store/aqStore';
-import { Volume2, VolumeX, Shield, Award, RotateCcw } from 'lucide-react';
+import { Volume2, VolumeX, Shield, Award, RotateCcw, LogOut } from 'lucide-react';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const { scores, totalAQ, user, soundEnabled, toggleSound, resetProgress } = useAQStore();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
@@ -102,6 +114,15 @@ export default function Header() {
             className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
           >
             <RotateCcw className="w-4 h-4" />
+          </button>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            title="Đăng xuất"
+            className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>
