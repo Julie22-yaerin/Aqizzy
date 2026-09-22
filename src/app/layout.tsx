@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
-import RequireAuth from '@/components/RequireAuth';
 
 export const metadata: Metadata = {
   title: 'Aqizzy - Nền tảng Đào tạo AQ Cấp 2 qua Khung CORE',
@@ -16,12 +15,10 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className="antialiased selection:bg-brand-500 selection:text-white">
-        <RequireAuth>
-          <Header />
-          <main className="min-h-[calc(100vh-4rem)] pb-16">
-            {children}
-          </main>
-        </RequireAuth>
+        <Header />
+        <main className="min-h-[calc(100vh-4rem)] pb-16">
+          {children}
+        </main>
       </body>
     </html>
   );
