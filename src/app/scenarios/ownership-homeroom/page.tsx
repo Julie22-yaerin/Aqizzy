@@ -2,7 +2,7 @@ import React from 'react';
 import HomeroomScenario from '@/components/scenarios/HomeroomScenario';
 
 export const metadata = {
-  title: 'Ownership (O) - The Homeroom Period | The Lyceum',
+  title: 'Ownership (O) - The Homeroom Period | Aqizzy',
   description: 'Dũng cảm nhận trách nhiệm người đứng đầu tổ thay vì đùn đẩy đổ lỗi.',
 };
 

@@ -1,5 +1,5 @@
 // =========================================================
-// THE LYCEUM - CORE TYPES DEFINITIONS
+// AQIZZY - CORE TYPES DEFINITIONS
 // =========================================================
 
 export type CoreDimension = 'C' | 'O' | 'R' | 'E';

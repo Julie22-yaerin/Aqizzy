@@ -1,5 +1,5 @@
 -- =========================================================
--- THE LYCEUM - SUPABASE DATABASE SCHEMA
+-- AQIZZY - SUPABASE DATABASE SCHEMA
 -- Platform for Training Student Adversity Quotient (AQ)
 -- Using the CORE Framework (Control, Ownership, Reach, Endurance)
 -- Vietnamese Middle School Context (Grades 6 - 9 / Cấp 2)

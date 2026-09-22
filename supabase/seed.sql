@@ -1,5 +1,5 @@
 -- =========================================================
--- THE LYCEUM - SUPABASE SEED DATA
+-- AQIZZY - SUPABASE SEED DATA
 -- 4 Injected Scenarios for Vietnamese Middle School Students
 -- (Grades 6-9 / Cấp 2)
 -- =========================================================

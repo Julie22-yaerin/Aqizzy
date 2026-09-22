@@ -125,7 +125,7 @@ export const useAQStore = create<AQState>()(
       },
     }),
     {
-      name: 'the-lyceum-aq-store',
+      name: 'aqizzy-aq-store',
       storage: createJSONStorage(() =>
         typeof window !== 'undefined'
           ? localStorage

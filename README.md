@@ -1,6 +1,6 @@
-# The Lyceum - Nền Tảng Huấn Luyện Trí Tuệ Nghịch Cảnh (AQ) cho Học Sinh Cấp 2
+# Aqizzy - Nền Tảng Huấn Luyện Trí Tuệ Nghịch Cảnh (AQ) cho Học Sinh Cấp 2
 
-> **The Lyceum** là nền tảng web giáo dục ứng dụng trí tuệ nhân tạo (AI) giúp rèn luyện và nâng cao chỉ số vượt khó **AQ (Adversity Quotient)** cho học sinh Trung học Cơ sở Việt Nam (Cấp 2 - Lớp 6 đến 9) thông qua mô hình tâm lý học ứng dụng **CORE (Control - Ownership - Reach - Endurance)** trong các tình huống mô phỏng nhập vai chân thực của đời sống học đường.
+> **Aqizzy** là nền tảng web giáo dục ứng dụng trí tuệ nhân tạo (AI) giúp rèn luyện và nâng cao chỉ số vượt khó **AQ (Adversity Quotient)** cho học sinh Trung học Cơ sở Việt Nam (Cấp 2 - Lớp 6 đến 9) thông qua mô hình tâm lý học ứng dụng **CORE (Control - Ownership - Reach - Endurance)** trong các tình huống mô phỏng nhập vai chân thực của đời sống học đường.
 
 ---
 
