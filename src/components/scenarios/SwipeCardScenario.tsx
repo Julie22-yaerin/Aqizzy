@@ -131,7 +131,7 @@ export default function SwipeCardScenario({ cards }: Props) {
 
             {/* Interactive Swipe Card Stack */}
             <div className="relative h-72 w-full flex items-center justify-center my-2">
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="popLayout">
                 {currentCard && (
                   <motion.div
                     key={currentCard.id}
@@ -143,7 +143,7 @@ export default function SwipeCardScenario({ cards }: Props) {
                     }}
                     initial={{ scale: 0.9, opacity: 0, y: 20 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
-                    exit={{ scale: 0.8, opacity: 0 }}
+                    exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2 } }}
                     whileDrag={{ scale: 1.03, rotate: 4 }}
                     className="absolute inset-x-2 sm:inset-x-8 top-0 bottom-0 bg-white rounded-3xl border-2 border-slate-200 shadow-2xl p-6 sm:p-8 flex flex-col justify-between cursor-grab active:cursor-grabbing select-none"
                   >
