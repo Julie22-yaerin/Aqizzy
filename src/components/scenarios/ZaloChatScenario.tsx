@@ -6,6 +6,7 @@ import { sound } from '@/lib/sound';
 import confetti from 'canvas-confetti';
 import { Send, Phone, Video, MoreVertical, Sparkles, CheckCheck, ArrowRight, ShieldCheck, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
+import DebriefRoomModal from '@/components/scenarios/DebriefRoomModal';
 
 interface Message {
   id: string;
@@ -56,6 +57,7 @@ export default function ZaloChatScenario() {
   const [isTyping, setIsTyping] = useState(false);
   const [typingName, setTypingName] = useState('');
   const [isResolved, setIsResolved] = useState(false);
+  const [showDebrief, setShowDebrief] = useState(false);
   const [totalScenarioDelta, setTotalScenarioDelta] = useState({ c: 0, o: 0, r: 0, e: 0 });
   const [lastTip, setLastTip] = useState<string | null>(null);
 
@@ -159,6 +161,8 @@ export default function ZaloChatScenario() {
           spread: 70,
           origin: { y: 0.6 },
         });
+        // Auto show Debrief Room after a brief moment
+        setTimeout(() => setShowDebrief(true), 1200);
       }
     } catch (err) {
       console.error(err);
@@ -371,22 +375,66 @@ export default function ZaloChatScenario() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              onClick={() => setShowDebrief(true)}
+              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105"
+            >
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>Mở Báo Cáo Phản Tư (Debrief Room) & Radar Chart</span>
+            </button>
             <Link
               href="/scenarios/ownership-homeroom"
               className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-md shadow-purple-600/20 transition-all"
             >
-              <span>Thử thách tiếp theo: OWNERSHIP (Tiết Sinh Hoạt Lớp)</span>
+              <span>Sang Thử Thách 2: OWNERSHIP</span>
               <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/profile"
-              className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold text-sm px-6 py-3 rounded-2xl shadow-xs transition-all"
-            >
-              Xem Hồ Sơ AQ
             </Link>
           </div>
         </div>
       )}
+
+      {/* Debrief Room Modal */}
+      <DebriefRoomModal
+        isOpen={showDebrief}
+        onClose={() => setShowDebrief(false)}
+        scenarioId="control-zalo-panic"
+        scenarioTitle="Cơn hoảng loạn Zalo lúc 9h tối Chủ Nhật"
+        sessionLogs={messages.map((m) => ({
+          role: m.is_user ? 'user' : 'npc',
+          message_content: `${m.sender_name}: ${m.text}`,
+        }))}
+        nextScenarioPath="/scenarios/ownership-homeroom"
+        nextScenarioTitle="Sang Kịch Bản 2: OWNERSHIP"
+        onRestartScenario={() => {
+          setIsResolved(false);
+          setMessages([
+            {
+              id: 'm1',
+              sender: 'minh_khang',
+              sender_name: 'Minh Khang',
+              text: 'Trời ơi cứu tao với tụi mày ơi!! 😭😭 Cô KHTN vừa nhắn trên Zalo đổi đề tài mô hình sáng mai sang HỆ HÔ HẤP rồi!! Mô hình tế bào tao với tụi mày dán xốp xong hết rồi mà!',
+              timestamp: '21:01',
+              is_user: false,
+            },
+            {
+              id: 'm2',
+              sender: 'linh_chi',
+              sender_name: 'Linh Chi',
+              text: 'Cái gì??? 9h tối Chủ Nhật cô mới nhắn đổi??? Giờ này tiệm tạp hóa đóng cửa sạch rồi lấy đâu ra đồ mà làm? Thôi tao dẹp, mai lên xin cô cho 0 điểm luôn đi, làm sao mà kịp được!',
+              timestamp: '21:02',
+              is_user: false,
+            },
+            {
+              id: 'm3',
+              sender: 'minh_khang',
+              sender_name: 'Minh Khang',
+              text: 'Không được đâu Chi ơi, điểm hệ số 2 đó!! Mai mà bị 0 điểm mẹ tao cắt tiền tiêu vặt với tịch thu điện thoại luôn á 😭 Hay là thức trắng đêm nay nặn đất sét đi, tao sợ quá!',
+              timestamp: '21:03',
+              is_user: false,
+            },
+          ]);
+        }}
+      />
 
     </div>
   );

@@ -6,6 +6,7 @@ import { sound } from '@/lib/sound';
 import confetti from 'canvas-confetti';
 import { Send, ArrowRight, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
+import DebriefRoomModal from '@/components/scenarios/DebriefRoomModal';
 
 interface ClassroomMessage {
   id: string;
@@ -48,6 +49,7 @@ export default function HomeroomScenario() {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [teacherAnger, setTeacherAnger] = useState(85);
   const [isResolved, setIsResolved] = useState(false);
+  const [showDebrief, setShowDebrief] = useState(false);
   const [totalScenarioDelta, setTotalScenarioDelta] = useState({ c: 0, o: 0, r: 0, e: 0 });
   const [lastTip, setLastTip] = useState<string | null>(null);
 
@@ -155,6 +157,7 @@ export default function HomeroomScenario() {
           spread: 80,
           origin: { y: 0.6 },
         });
+        setTimeout(() => setShowDebrief(true), 1200);
       }
     } catch (err) {
       console.error(err);
@@ -370,22 +373,58 @@ export default function HomeroomScenario() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              onClick={() => setShowDebrief(true)}
+              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105"
+            >
+              <span>Mở Báo Cáo Phản Tư (Debrief Room) & Radar Chart</span>
+            </button>
             <Link
               href="/scenarios/reach-math-test"
               className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-md shadow-amber-600/20 transition-all"
             >
-              <span>Thử thách tiếp theo: REACH (Thảm họa 4 điểm Toán - Swipe UI)</span>
+              <span>Sang Thử Thách 3: REACH</span>
               <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/profile"
-              className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold text-sm px-6 py-3 rounded-2xl shadow-xs transition-all"
-            >
-              Xem Hồ Sơ AQ
             </Link>
           </div>
         </div>
       )}
+
+      {/* Debrief Room Modal */}
+      <DebriefRoomModal
+        isOpen={showDebrief}
+        onClose={() => setShowDebrief(false)}
+        scenarioId="ownership-homeroom-period"
+        scenarioTitle="Giờ Sinh Hoạt Lớp Sóng Gió"
+        sessionLogs={messages.map((m) => ({
+          role: m.is_user ? 'user' : 'npc',
+          message_content: `${m.speaker_title}: ${m.text}`,
+        }))}
+        nextScenarioPath="/scenarios/reach-math-test"
+        nextScenarioTitle="Sang Kịch Bản 3: REACH"
+        onRestartScenario={() => {
+          setIsResolved(false);
+          setTeacherAnger(85);
+          setMessages([
+            {
+              id: 'h1',
+              speaker: 'co_mai',
+              speaker_title: 'Cô Mai (Giáo viên Chủ nhiệm)',
+              avatar: '👩🏻‍🏫',
+              text: 'Cả lớp trật tự! Cô không thể tin được là tuần này lớp 8A chúng ta đứng bét toàn khối vì bị trừ 10 điểm thi đua! Thầy Giám thị báo lại: Giờ truy bài, Tổ 3 có học sinh ngang nhiên ăn quà vặt rồi nhét rác vào hộc bàn! Tổ trưởng Tổ 3 đâu, em đứng lên trả lời cho cô và cả lớp biết chuyện này là như thế nào?!',
+              is_user: false,
+            },
+            {
+              id: 'h2',
+              speaker: 'nam',
+              speaker_title: 'Nam (Thành viên vi phạm)',
+              avatar: '👦🏽',
+              text: '(Cúi gằm mặt xuống bàn, hai tay run bần bật, lí nhí): "Tổ trưởng ơi tao xin lỗi... tao không nghĩ bị thầy Giám thị ghi vào sổ..."',
+              is_user: false,
+            },
+          ]);
+        }}
+      />
 
     </div>
   );

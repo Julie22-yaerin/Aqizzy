@@ -8,6 +8,7 @@ import confetti from 'canvas-confetti';
 import { SwipeCardItem } from '@/types';
 import { Check, X, ArrowRight, RotateCcw, Compass, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
+import DebriefRoomModal from '@/components/scenarios/DebriefRoomModal';
 
 interface Props {
   cards: SwipeCardItem[];
@@ -20,6 +21,7 @@ export default function SwipeCardScenario({ cards }: Props) {
   const [lastActionCorrect, setLastActionCorrect] = useState(false);
   const [stats, setStats] = useState({ correct: 0, totalScoreDelta: 0 });
   const [isFinished, setIsFinished] = useState(false);
+  const [showDebrief, setShowDebrief] = useState(false);
 
   const currentCard = cards[currentIndex];
 
@@ -56,6 +58,7 @@ export default function SwipeCardScenario({ cards }: Props) {
         spread: 70,
         origin: { y: 0.6 },
       });
+      setTimeout(() => setShowDebrief(true), 1200);
     }
   };
 
@@ -274,11 +277,17 @@ export default function SwipeCardScenario({ cards }: Props) {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+            <button
+              onClick={() => setShowDebrief(true)}
+              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105"
+            >
+              <span>Mở Báo Cáo Phản Tư (Debrief Room) & Radar Chart</span>
+            </button>
             <Link
               href="/scenarios/endurance-exam-crush"
               className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-md shadow-emerald-600/20 transition-all"
             >
-              <span>Thử thách tiếp theo: ENDURANCE (Mùa thi tháng 5)</span>
+              <span>Sang Thử Thách 4: ENDURANCE</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <button
@@ -291,6 +300,21 @@ export default function SwipeCardScenario({ cards }: Props) {
           </div>
         </div>
       )}
+
+      {/* Debrief Room Modal */}
+      <DebriefRoomModal
+        isOpen={showDebrief}
+        onClose={() => setShowDebrief(false)}
+        scenarioId="reach-math-test-disaster"
+        scenarioTitle="Thảm họa bài kiểm tra 1 tiết Toán (4 điểm)"
+        sessionLogs={cards.slice(0, currentIndex + 1).map((c) => ({
+          role: 'user',
+          message_content: `Thẻ suy nghĩ: "${c.thought}" -> Phân loại: ${c.correct_action === 'right' ? 'Giữ lại (Khoanh vùng)' : 'Loại bỏ (Thổi phồng)'}. Giải thích: ${c.explanation}`,
+        }))}
+        nextScenarioPath="/scenarios/endurance-exam-crush"
+        nextScenarioTitle="Sang Kịch Bản 4: ENDURANCE"
+        onRestartScenario={handleReset}
+      />
 
     </div>
   );

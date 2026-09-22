@@ -7,6 +7,7 @@ import confetti from 'canvas-confetti';
 import { ResourceDay, ResourceChoice } from '@/types';
 import { BatteryCharging, Flame, AlertCircle, ArrowRight, RotateCcw, Calendar, CheckCircle2, HeartPulse } from 'lucide-react';
 import Link from 'next/link';
+import DebriefRoomModal from '@/components/scenarios/DebriefRoomModal';
 
 interface Props {
   days: ResourceDay[];
@@ -22,6 +23,7 @@ export default function ResourceScenario({ days }: Props) {
   const [showFeedback, setShowFeedback] = useState(false);
   const [isBurnout, setIsBurnout] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showDebrief, setShowDebrief] = useState(false);
   const [actionHistory, setActionHistory] = useState<{ dayName: string; choiceTitle: string; feedback: string }[]>([]);
 
   const currentDay = days[currentDayIndex];
@@ -79,6 +81,7 @@ export default function ResourceScenario({ days }: Props) {
         spread: 80,
         origin: { y: 0.6 },
       });
+      setTimeout(() => setShowDebrief(true), 1200);
     }
   };
 
@@ -276,6 +279,12 @@ export default function ResourceScenario({ days }: Props) {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+            <button
+              onClick={() => setShowDebrief(true)}
+              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-lg shadow-indigo-600/30 transition-all transform hover:scale-105"
+            >
+              <span>Mở Báo Cáo Phản Tư (Debrief Room) & Radar Chart</span>
+            </button>
             <Link
               href="/profile"
               className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-md transition-all"
@@ -293,6 +302,21 @@ export default function ResourceScenario({ days }: Props) {
           </div>
         </div>
       )}
+
+      {/* Debrief Room Modal */}
+      <DebriefRoomModal
+        isOpen={showDebrief}
+        onClose={() => setShowDebrief(false)}
+        scenarioId="endurance-may-exam-crush"
+        scenarioTitle="Cơn lốc mùa thi tháng Năm (May Exam Crush)"
+        sessionLogs={actionHistory.map((h) => ({
+          role: 'user',
+          message_content: `Lựa chọn ngày ${h.dayName}: "${h.choiceTitle}". Đánh giá tâm lý học đường: ${h.feedback}`,
+        }))}
+        nextScenarioPath="/profile"
+        nextScenarioTitle="Xem Tổng Kết Hồ Sơ AQ"
+        onRestartScenario={handleRestart}
+      />
 
       {/* Active Day Challenge & Choices */}
       {!isBurnout && !isCompleted && currentDay && (
