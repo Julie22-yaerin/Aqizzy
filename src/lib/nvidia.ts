@@ -110,7 +110,7 @@ function simulateVietnameseResponse(
     // Ownership: Homeroom period
     const admitsLeadershipFault = /nhận lỗi|trách nhiệm|lỗi của em|chưa nhắc nhở|tổ trưởng|quản lý|chưa sâu sát|em sai|thiếu sót/.test(text);
     const offersFix = /trực nhật|dọn vệ sinh|chuộc lỗi|quét|phạt|cam kết|rút kinh nghiệm|giám sát|kiểm tra hộc bàn|gỡ điểm/.test(text);
-    const deflectsBlame = /không phải em|bạn nam|em có biết gì đâu|em không xả|tại nam|đâu phải lỗi của em|nam tự ăn|nam làm nam chịu/.test(text);
+    const deflectsBlame = /(không phải em|chứ em có|em không xả|em có biết gì đâu|đâu phải lỗi của em|nam tự ăn|nam làm nam chịu|(do|tại|lỗi do|bắt) bạn nam)/.test(text) && !/cùng bạn nam|với bạn nam/.test(text);
 
     if (admitsLeadershipFault && !deflectsBlame) {
       const isResolved = offersFix || chatHistoryLength >= 2;
