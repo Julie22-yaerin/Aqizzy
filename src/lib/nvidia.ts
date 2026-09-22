@@ -2,13 +2,24 @@ import OpenAI from 'openai';
 import { AIScenarioResponse } from '@/types';
 
 // NVIDIA NIM API client configured with OpenAI standard SDK
+const rawBaseUrl = process.env.NVIDIA_BASE_URL || 'https://integrate.api.nvidia.com/v1';
+// Sanitize baseURL in case of markdown formatting e.g. [https://...]
+const nvidiaBaseUrl = rawBaseUrl.replace(/[\[\]]/g, '').trim();
 const nvidiaApiKey = process.env.NVIDIA_API_KEY || '';
-const nvidiaBaseUrl = process.env.NVIDIA_BASE_URL || 'https://integrate.api.nvidia.com/v1';
-const defaultModel = process.env.NVIDIA_MODEL || 'meta/llama-3.1-70b-instruct';
+
+// Priority model list with automatic fallbacks
+const candidateModels = [
+  process.env.NVIDIA_MODEL,
+  'meta/llama-3.3-70b-instruct',
+  'meta/llama-3.1-70b-instruct',
+  'meta/llama-3.2-90b-vision-instruct',
+  'nvidia/llama-3.1-nemotron-70b-instruct',
+].filter(Boolean) as string[];
 
 export const nvidiaClient = new OpenAI({
   apiKey: nvidiaApiKey || 'nvapi-placeholder',
   baseURL: nvidiaBaseUrl,
+  timeout: 12000, // 12 seconds timeout to ensure UI responsiveness
 });
 
 /**
@@ -31,7 +42,7 @@ TIÊU CHÍ ĐÁNH GIÁ CORE (Trọng tâm: C - CONTROL):
 QUY ĐỊNH PHẢN HỒI:
 - Bắt buộc nói tiếng Việt tự nhiên, chân thực như học sinh cấp 2 nhắn tin Zalo (có icon Zalo, từ ngữ đời thường, xưng hô tao/mày hoặc bạn/mình phù hợp ngữ cảnh bạn bè).
 - Nếu User đưa ra phương án khả thi (vẽ 2D trên giấy A3/A4, phân chia việc, sáng mai giải thích với cô) và thuyết phục được nhóm: Đặt is_crisis_resolved = true.
-- BẮT BUỘC trả về định dạng JSON thuần túy (không bọc code block thừa nếu có thể):
+- BẮT BUỘC trả về định dạng JSON thuần túy:
 {
   "npc_reply": "Minh Khang: '...'\n\nLinh Chi: '...'",
   "score_delta": { "c": 0, "o": 0, "r": 0, "e": 0 },
@@ -78,7 +89,6 @@ function simulateVietnameseResponse(
     const isCalming = /bình tĩnh|đừng lo|yên tâm|không sao|nghe tao|từ từ|hít sâu|đừng hoảng/.test(text);
     const has2DSolution = /vẽ|giấy|sơ đồ|a4|a3|2d|thuyết trình|tài liệu|in|chú thích|mô hình phẳng|phác thảo|màu dạ/.test(text);
     const hasRoleAssignment = /phân công|mày làm|tao làm|khang vẽ|chi làm|chia việc/.test(text);
-    const hasCommunicationWithTeacher = /mai lên nói|giải thích|nói với cô|trình bày với cô|xin cô|thông cảm|nói thật/.test(text);
     const isPanickingOrComplaining = /thức trắng|bỏ đi|kệ đi|ghét cô|bất công|0 điểm|chửi|bực|cô điên|sợ quá|chết chắc|toang hẳn/.test(text);
 
     if ((isCalming || has2DSolution || hasRoleAssignment) && !isPanickingOrComplaining) {
@@ -110,7 +120,7 @@ function simulateVietnameseResponse(
     // Ownership: Homeroom period
     const admitsLeadershipFault = /nhận lỗi|trách nhiệm|lỗi của em|chưa nhắc nhở|tổ trưởng|quản lý|chưa sâu sát|em sai|thiếu sót/.test(text);
     const offersFix = /trực nhật|dọn vệ sinh|chuộc lỗi|quét|phạt|cam kết|rút kinh nghiệm|giám sát|kiểm tra hộc bàn|gỡ điểm/.test(text);
-    const deflectsBlame = /(không phải em|chứ em có|em không xả|em có biết gì đâu|đâu phải lỗi của em|nam tự ăn|nam làm nam chịu|(do|tại|lỗi do|bắt) bạn nam)/.test(text) && !/cùng bạn nam|với bạn nam/.test(text);
+    const deflectsBlame = /không phải em|bạn nam|em có biết gì đâu|em không xả|tại nam|đâu phải lỗi của em|nam tự ăn|nam làm nam chịu/.test(text);
 
     if (admitsLeadershipFault && !deflectsBlame) {
       const isResolved = offersFix || chatHistoryLength >= 2;
@@ -142,7 +152,7 @@ function simulateVietnameseResponse(
 
 /**
  * Execute dynamic AI evaluation for chat scenarios using NVIDIA NIM
- * Strictly enforces single API call JSON output format
+ * Strictly enforces single API call JSON output format with auto-tuned parameters
  */
 export async function evaluateChatScenario(
   scenarioId: string,
@@ -151,48 +161,52 @@ export async function evaluateChatScenario(
 ): Promise<AIScenarioResponse> {
   const systemPrompt = SYSTEM_PROMPTS[scenarioId as keyof typeof SYSTEM_PROMPTS];
 
-  // If no system prompt exists or no API key, fallback cleanly to Vietnamese simulator
   if (!systemPrompt || !nvidiaApiKey || nvidiaApiKey === 'nvapi-placeholder') {
     return simulateVietnameseResponse(scenarioId, userMessage, history.length);
   }
 
-  try {
-    const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
-      { role: 'system', content: systemPrompt },
-      ...history.map((h) => ({
-        role: (h.role === 'assistant' ? 'assistant' : 'user') as 'assistant' | 'user',
-        content: h.content,
-      })),
-      { role: 'user', content: userMessage },
-    ];
+  const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+    { role: 'system', content: systemPrompt },
+    ...history.map((h) => ({
+      role: (h.role === 'assistant' ? 'assistant' : 'user') as 'assistant' | 'user',
+      content: h.content,
+    })),
+    { role: 'user', content: userMessage },
+  ];
 
-    const response = await nvidiaClient.chat.completions.create({
-      model: defaultModel,
-      messages: messages,
-      temperature: 0.6,
-      max_tokens: 600,
-      response_format: { type: 'json_object' },
-    });
+  // Attempt candidates in priority order
+  for (const model of candidateModels) {
+    try {
+      const response = await nvidiaClient.chat.completions.create({
+        model,
+        messages,
+        temperature: 0.6, // Optimal balance: natural teen dialogue with stable scoring
+        top_p: 0.95,
+        max_tokens: 700,
+        response_format: { type: 'json_object' },
+      });
 
-    const rawJson = response.choices[0]?.message?.content;
-    if (!rawJson) {
-      return simulateVietnameseResponse(scenarioId, userMessage, history.length);
+      const rawJson = response.choices[0]?.message?.content;
+      if (!rawJson) continue;
+
+      const cleanJson = rawJson.replace(/^```json\s*/, '').replace(/\s*```$/, '').trim();
+      const parsed = JSON.parse(cleanJson) as AIScenarioResponse;
+
+      return {
+        npc_reply: parsed.npc_reply || 'Cả nhóm đang lắng nghe bạn...',
+        score_delta: parsed.score_delta || { c: 0, o: 0, r: 0, e: 0 },
+        is_crisis_resolved: Boolean(parsed.is_crisis_resolved),
+        coaching_tip: parsed.coaching_tip,
+      };
+    } catch (err: any) {
+      console.warn(`[NVIDIA NIM] Model ${model} returned notice/error:`, err.message || err);
+      // Try next candidate model
+      continue;
     }
-
-    // Clean any accidental markdown fence if LLM enclosed it
-    const cleanJson = rawJson.replace(/^```json\s*/, '').replace(/\s*```$/, '').trim();
-    const parsed = JSON.parse(cleanJson) as AIScenarioResponse;
-
-    return {
-      npc_reply: parsed.npc_reply || 'Cả nhóm đang lắng nghe bạn...',
-      score_delta: parsed.score_delta || { c: 0, o: 0, r: 0, e: 0 },
-      is_crisis_resolved: Boolean(parsed.is_crisis_resolved),
-      coaching_tip: parsed.coaching_tip,
-    };
-  } catch (error) {
-    console.warn('[NVIDIA NIM API] Error/Notice, using fallback:', error);
-    return simulateVietnameseResponse(scenarioId, userMessage, history.length);
   }
+
+  // Graceful fallback to heuristic Vietnamese simulator
+  return simulateVietnameseResponse(scenarioId, userMessage, history.length);
 }
 
 /**
@@ -254,8 +268,7 @@ export async function generateDebriefReport(
     return fallbackReport;
   }
 
-  try {
-    const debriefPrompt = `Bạn là Chuyên gia Cố vấn Tâm lý và Huấn luyện viên AQ (Chỉ số Vượt Nghịch cảnh) dành riêng cho học sinh Cấp 2 Việt Nam.
+  const debriefPrompt = `Bạn là Chuyên gia Cố vấn Tâm lý và Huấn luyện viên AQ (Chỉ số Vượt Nghịch cảnh) dành riêng cho học sinh Cấp 2 Việt Nam.
 Nhiệm vụ: Phân tích các câu nói của học sinh trong nhật ký tình huống vừa qua và tạo một "Reflection Report" (Báo Cáo Đúc Kết Phản Tư) tràn đầy sự ấm áp, truyền cảm hứng và hướng dẫn cụ thể.
 
 DỮ LIỆU ĐẦU VÀO:
@@ -285,21 +298,26 @@ BẮT BUỘC TRẢ VỀ ĐỊNH DẠNG JSON:
   "badge_awarded": "Tên huy hiệu danh dự kèm emoji"
 }`;
 
-    const response = await nvidiaClient.chat.completions.create({
-      model: defaultModel,
-      messages: [{ role: 'user', content: debriefPrompt }],
-      temperature: 0.5,
-      max_tokens: 800,
-      response_format: { type: 'json_object' },
-    });
+  for (const model of candidateModels) {
+    try {
+      const response = await nvidiaClient.chat.completions.create({
+        model,
+        messages: [{ role: 'user', content: debriefPrompt }],
+        temperature: 0.5, // Slightly lower temperature for thoughtful mentoring
+        top_p: 0.9,
+        max_tokens: 900,
+        response_format: { type: 'json_object' },
+      });
 
-    const rawJson = response.choices[0]?.message?.content;
-    if (!rawJson) return fallbackReport;
+      const rawJson = response.choices[0]?.message?.content;
+      if (!rawJson) continue;
 
-    const cleanJson = rawJson.replace(/^```json\s*/, '').replace(/\s*```$/, '').trim();
-    return JSON.parse(cleanJson) as DebriefReport;
-  } catch (err) {
-    console.warn('[Debrief AI] Notice, using fallback report:', err);
-    return fallbackReport;
+      const cleanJson = rawJson.replace(/^```json\s*/, '').replace(/\s*```$/, '').trim();
+      return JSON.parse(cleanJson) as DebriefReport;
+    } catch (err) {
+      continue;
+    }
   }
+
+  return fallbackReport;
 }
