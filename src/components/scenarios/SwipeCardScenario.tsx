@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function SwipeCardScenario({ cards }: Props) {
-  const { applyScoreDelta, markScenarioCompleted, soundEnabled } = useAQStore();
+  const { applyScoreDelta, markScenarioCompleted, soundEnabled, user } = useAQStore();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
   const [lastActionCorrect, setLastActionCorrect] = useState(false);
@@ -113,7 +113,7 @@ export default function SwipeCardScenario({ cards }: Props) {
                   Bài kiểm tra 1 tiết • Đại số Chương 2
                 </div>
                 <div className="text-sm font-semibold text-slate-800 mt-0.5">
-                  Họ và tên: Nguyễn Minh Anh • Lớp 8A3
+                  Họ và tên: {user.display_name || 'Học sinh'}
                 </div>
               </div>
 

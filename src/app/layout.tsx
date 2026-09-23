@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import RequireAuth from '@/components/RequireAuth';
+import NameSetupModal from '@/components/NameSetupModal';
 
 export const metadata: Metadata = {
   title: 'Aqizzy - Nền tảng Đào tạo AQ Cấp 2 qua Khung CORE',
@@ -19,6 +20,7 @@ export default function RootLayout({
         <RequireAuth>
           <Header />
           <main className="min-h-[calc(100vh-4rem)] pb-16">
+            <NameSetupModal />
             {children}
           </main>
         </RequireAuth>
