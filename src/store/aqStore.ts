@@ -39,7 +39,7 @@ export const useAQStore = create<AQState>()(
     (set, get) => ({
       user: {
         id: 'student-cap2-vietnam',
-        display_name: 'Minh Anh (Lớp 8A3)',
+        display_name: '',
         current_level: 'Học sinh Cấp 2 Tập sự',
         avatar_url: '🎓',
       },
@@ -110,7 +110,7 @@ export const useAQStore = create<AQState>()(
           completedScenarios: {},
           user: {
             id: 'student-cap2-vietnam',
-            display_name: 'Minh Anh (Lớp 8A3)',
+            display_name: '',
             current_level: 'Học sinh Cấp 2 Tập sự',
             avatar_url: '🎓',
           },
