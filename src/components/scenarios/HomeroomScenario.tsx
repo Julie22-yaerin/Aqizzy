@@ -176,7 +176,6 @@ export default function HomeroomScenario() {
               <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
                 CORE: Ownership (Làm chủ trách nhiệm)
               </span>
-              <span className="text-purple-200 text-xs font-medium">Lớp 8 - 9</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight">
               The Homeroom Period (Giờ Sinh Hoạt Lớp)

@@ -80,7 +80,6 @@ export default function SwipeCardScenario({ cards }: Props) {
               <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
                 CORE: Reach (Khoanh vùng ảnh hưởng)
               </span>
-              <span className="text-amber-100 text-xs font-medium">Lớp 7 - 9</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight">
               The 45-Minute Math Test Disaster (Bài kiểm tra 4 điểm)

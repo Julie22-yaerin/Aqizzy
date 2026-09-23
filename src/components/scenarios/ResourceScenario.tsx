@@ -108,7 +108,6 @@ export default function ResourceScenario({ days }: Props) {
               <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
                 CORE: Endurance (Sức bền bỉ)
               </span>
-              <span className="text-emerald-100 text-xs font-medium">Lớp 8 - 9</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight">
               The May Exam Crush (Cơn lốc mùa thi tháng Năm)

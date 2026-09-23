@@ -181,7 +181,6 @@ export default function ZaloChatScenario() {
               <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
                 CORE: Control (Kiểm soát)
               </span>
-              <span className="text-blue-100 text-xs font-medium">Lớp 7 - 8</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight">
               The 9 PM Sunday Zalo Panic
