@@ -15,8 +15,7 @@ interface AQState {
   totalAQ: number;
   completedScenarios: Record<string, CompletedScenarioRecord>;
   soundEnabled: boolean;
-  
-  // Actions
+
   setUserDisplayName: (name: string) => void;
   applyScoreDelta: (delta: Partial<COREScore>, scenarioId?: string) => void;
   markScenarioCompleted: (scenarioId: string, delta: COREScore) => void;
@@ -32,17 +31,19 @@ const DEFAULT_SCORES: COREScore = {
   e: 50,
 };
 
+const DEFAULT_USER: User = {
+  id: 'student-cap2-vietnam',
+  display_name: 'Minh Anh (Lớp 8A3)',
+  current_level: 'Học sinh Cấp 2 Tập sự',
+  avatar_url: '🎓',
+};
+
 const clamp = (val: number, min = 0, max = 100) => Math.min(Math.max(val, min), max);
 
 export const useAQStore = create<AQState>()(
   persist(
     (set, get) => ({
-      user: {
-        id: 'student-cap2-vietnam',
-        display_name: 'Minh Anh (Lớp 8A3)',
-        current_level: 'Học sinh Cấp 2 Tập sự',
-        avatar_url: '🎓',
-      },
+      user: DEFAULT_USER,
       scores: DEFAULT_SCORES,
       totalAQ: 200,
       completedScenarios: {},
@@ -53,50 +54,17 @@ export const useAQStore = create<AQState>()(
           user: { ...state.user, display_name: name },
         })),
 
-      applyScoreDelta: (delta, scenarioId) => {
-        const current = get().scores;
-        const newScores: COREScore = {
-          c: clamp(current.c + (delta.c || 0)),
-          o: clamp(current.o + (delta.o || 0)),
-          r: clamp(current.r + (delta.r || 0)),
-          e: clamp(current.e + (delta.e || 0)),
-        };
-        const total = newScores.c + newScores.o + newScores.r + newScores.e;
-
-        // Level title calculation based on total AQ
-        let level = 'Học sinh Cấp 2 Tập sự';
-        if (total >= 340) level = 'Bậc thầy AQ Vượt nghịch cảnh';
-        else if (total >= 280) level = 'Chiến binh Thép Cấp 2';
-        else if (total >= 230) level = 'Cán bộ Lớp Tiên phong';
-        else if (total < 170) level = 'Cần rèn luyện Bền bỉ';
-
-        set((state) => ({
-          scores: newScores,
-          totalAQ: total,
-          user: { ...state.user, current_level: level },
+      applyScoreDelta: () => {
+        set(() => ({
+          scores: DEFAULT_SCORES,
+          totalAQ: 200,
+          user: { ...DEFAULT_USER },
         }));
-
-        // Sync to Supabase in background
-        syncAQProfile({
-          user_id: get().user.id,
-          control_score: newScores.c,
-          ownership_score: newScores.o,
-          reach_score: newScores.r,
-          endurance_score: newScores.e,
-          last_scenario_completed: scenarioId,
-        });
       },
 
-      markScenarioCompleted: (scenarioId, delta) => {
-        set((state) => ({
-          completedScenarios: {
-            ...state.completedScenarios,
-            [scenarioId]: {
-              scenarioId,
-              completedAt: new Date().toISOString(),
-              coreScoreDelta: delta,
-            },
-          },
+      markScenarioCompleted: () => {
+        set(() => ({
+          completedScenarios: {},
         }));
       },
 
@@ -108,19 +76,10 @@ export const useAQStore = create<AQState>()(
           scores: DEFAULT_SCORES,
           totalAQ: 200,
           completedScenarios: {},
-          user: {
-            id: 'student-cap2-vietnam',
-            display_name: 'Minh Anh (Lớp 8A3)',
-            current_level: 'Học sinh Cấp 2 Tập sự',
-            avatar_url: '🎓',
-          },
+          user: { ...DEFAULT_USER },
         })),
 
       getStudentTitle: () => {
-        const total = get().totalAQ;
-        if (total >= 340) return 'Bậc thầy AQ (Master of CORE)';
-        if (total >= 280) return 'Bản lĩnh Vượt Sóng Gió (High AQ)';
-        if (total >= 220) return 'Đang tiến bộ vững chắc (Growing AQ)';
         return 'Tập sự Khởi đầu (Explorer AQ)';
       },
     }),
