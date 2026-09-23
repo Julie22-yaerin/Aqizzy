@@ -5,7 +5,7 @@ import { useAQStore } from '@/store/aqStore';
 import COREScoreRadar from '@/components/COREScoreRadar';
 import AnalyticsPanel from '@/components/AnalyticsPanel';
 import Link from 'next/link';
-import { GraduationCap, ArrowRight, CheckCircle2, MessageSquare, Layers, SlidersHorizontal } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { INJECTED_SCENARIOS } from '@/lib/scenariosData';
 
 export default function DashboardPage() {
@@ -62,29 +62,14 @@ export default function DashboardPage() {
                 className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all flex flex-col justify-between group"
               >
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className={`text-xs font-black px-2.5 py-1 rounded-xl ${
-                        scenario.core_focus === 'C' ? 'bg-blue-100 text-blue-700' :
-                        scenario.core_focus === 'O' ? 'bg-purple-100 text-purple-700' :
-                        scenario.core_focus === 'R' ? 'bg-amber-100 text-amber-700' :
-                        'bg-emerald-100 text-emerald-700'
-                      }`}>
-                        CORE: {scenario.core_focus}
-                      </span>
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600">
-                        {scenario.grade_level}
-                      </span>
-                    </div>
-
-                    <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
-                      {scenario.type === 'chat' && <MessageSquare className="w-3.5 h-3.5 text-blue-600" />}
-                      {scenario.type === 'swipe' && <Layers className="w-3.5 h-3.5 text-amber-600" />}
-                      {scenario.type === 'resource' && <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-600" />}
-                      <span className="uppercase text-[11px]">
-                        {scenario.type === 'chat' ? 'Chat AI (Zalo/Lớp)' :
-                         scenario.type === 'swipe' ? 'Tinder Swipe UI' : 'Resource UI'}
-                      </span>
+                  <div className="flex items-center">
+                    <span className={`text-xs font-black px-2.5 py-1 rounded-xl ${
+                      scenario.core_focus === 'C' ? 'bg-blue-100 text-blue-700' :
+                      scenario.core_focus === 'O' ? 'bg-purple-100 text-purple-700' :
+                      scenario.core_focus === 'R' ? 'bg-amber-100 text-amber-700' :
+                      'bg-emerald-100 text-emerald-700'
+                    }`}>
+                      CORE: {scenario.core_focus}
                     </span>
                   </div>
 
