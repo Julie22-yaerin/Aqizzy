@@ -56,6 +56,10 @@ async function runTests() {
   console.log('Badge Awarded:', debriefReport.badge_awarded);
 
   console.log('\n✅ All Database and API layer tests passed successfully!');
+  process.exit(0);
 }
 
-runTests().catch(console.error);
+runTests().catch((err) => {
+  console.error('Test API failed:', err);
+  process.exit(1);
+});

@@ -7,18 +7,32 @@ const rawBaseUrl = process.env.NVIDIA_BASE_URL || 'https://integrate.api.nvidia.
 const nvidiaBaseUrl = rawBaseUrl.replace(/[\[\]]/g, '').trim();
 const nvidiaApiKey = process.env.NVIDIA_API_KEY || '';
 
-// Priority model list with automatic fallbacks
-const candidateModels = [
-  process.env.NVIDIA_MODEL,
-  'meta/llama-3.2-11b-vision-instruct',
-  'meta/llama-3.2-90b-vision-instruct',
-  'nvidia/llama-3.1-nemotron-70b-instruct',
-].filter(Boolean) as string[];
+// Helper to cleanly extract JSON substring even if LLM wraps in markdown or conversational text
+export function extractJson(text: string): string {
+  let clean = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
+  const match = clean.match(/\{[\s\S]*\}/);
+  if (match) clean = match[0];
+  // Sanitize invalid JSON escape sequences like \'
+  clean = clean.replace(/\\'/g, "'");
+  // Sanitize illegal leading '+' on numbers (e.g., { "c": +10 } -> { "c": 10 })
+  clean = clean.replace(/([:\s,\[])\+(\d+)/g, '$1$2');
+  return clean;
+}
+
+// Priority model list with automatic fallbacks (deduplicated)
+const candidateModels = Array.from(
+  new Set([
+    'meta/llama-3.2-11b-vision-instruct',
+    process.env.NVIDIA_MODEL,
+    'meta/llama-3.2-90b-vision-instruct',
+    'nvidia/llama-3.1-nemotron-70b-instruct',
+  ].filter(Boolean))
+) as string[];
 
 export const nvidiaClient = new OpenAI({
   apiKey: nvidiaApiKey || 'nvapi-placeholder',
   baseURL: nvidiaBaseUrl,
-  timeout: 12000, // 12 seconds timeout to ensure UI responsiveness
+  timeout: 8000, // 8 seconds timeout for swift failover/fallback
 });
 
 /**
@@ -41,7 +55,7 @@ TIÊU CHÍ ĐÁNH GIÁ CORE (Trọng tâm: C - CONTROL):
 QUY ĐỊNH PHẢN HỒI:
 - Bắt buộc nói tiếng Việt tự nhiên, thân thiện và văn minh của học sinh cấp 2 nhắn tin Zalo (có icon Zalo, từ ngữ đời thường, xưng hô bạn/mình, tuyệt đối không dùng mày/tao).
 - Nếu User đưa ra phương án khả thi (vẽ 2D trên giấy A3/A4, phân chia việc, sáng mai giải thích với cô) và thuyết phục được nhóm: Đặt is_crisis_resolved = true.
-- BẮT BUỘC trả về định dạng JSON thuần túy:
+- BẮT BUỘC trả về định dạng JSON thuần túy (số nguyên không có dấu '+' phía trước):
 {
   "npc_reply": "Minh Khang: '...'\n\nLinh Chi: '...'",
   "score_delta": { "c": 0, "o": 0, "r": 0, "e": 0 },
@@ -188,7 +202,7 @@ export async function evaluateChatScenario(
       const rawJson = response.choices[0]?.message?.content;
       if (!rawJson) continue;
 
-      const cleanJson = rawJson.replace(/^```json\s*/, '').replace(/\s*```$/, '').trim();
+      const cleanJson = extractJson(rawJson);
       const parsed = JSON.parse(cleanJson) as AIScenarioResponse;
 
       return {
@@ -311,9 +325,10 @@ BẮT BUỘC TRẢ VỀ ĐỊNH DẠNG JSON:
       const rawJson = response.choices[0]?.message?.content;
       if (!rawJson) continue;
 
-      const cleanJson = rawJson.replace(/^```json\s*/, '').replace(/\s*```$/, '').trim();
+      const cleanJson = extractJson(rawJson);
       return JSON.parse(cleanJson) as DebriefReport;
-    } catch (err) {
+    } catch (err: any) {
+      console.warn(`[NVIDIA Debrief] Model ${model} error:`, err.message || err);
       continue;
     }
   }

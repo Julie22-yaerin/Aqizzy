@@ -108,6 +108,7 @@ async function runDataflowTests() {
   console.log('====================================================');
   console.log('🎉 ALL DATAFLOW TESTS PASSED CLEANLY & SUCCESSFULLY!');
   console.log('====================================================');
+  process.exit(0);
 }
 
 runDataflowTests().catch((err) => {
