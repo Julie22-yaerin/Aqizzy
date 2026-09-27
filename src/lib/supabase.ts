@@ -12,11 +12,11 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 });
 
 /**
- * Persist a session log to Supabase, with silent failover to local storage
+ * Persist a session log to Supabase if available
  */
 export async function logSessionEvent(log: SessionLog): Promise<void> {
   try {
-    const { error } = await supabase.from('session_logs').insert([
+    await supabase.from('session_logs').insert([
       {
         session_id: log.session_id,
         scenario_id: log.scenario_id,
@@ -27,12 +27,8 @@ export async function logSessionEvent(log: SessionLog): Promise<void> {
         is_crisis_resolved: log.is_crisis_resolved || false,
       },
     ]);
-
-    if (error) {
-      console.warn('[Supabase] Log insert notice:', error.message);
-    }
-  } catch (err) {
-    console.warn('[Supabase] Offline/Error logging session event:', err);
+  } catch {
+    // Silent catch when Supabase is unreachable
   }
 }
 
@@ -40,10 +36,10 @@ export async function logSessionEvent(log: SessionLog): Promise<void> {
  * Update user AQ profile in Supabase
  */
 export async function syncAQProfile(profile: Partial<AQProfile>): Promise<void> {
-  try {
-    if (!profile.user_id) return;
+  if (!profile.user_id) return;
 
-    const { error } = await supabase
+  try {
+    await supabase
       .from('aq_profiles')
       .upsert({
         user_id: profile.user_id,
@@ -54,11 +50,7 @@ export async function syncAQProfile(profile: Partial<AQProfile>): Promise<void> 
         last_scenario_completed: profile.last_scenario_completed,
         updated_at: new Date().toISOString(),
       }, { onConflict: 'user_id' });
-
-    if (error) {
-      console.warn('[Supabase] Profile sync notice:', error.message);
-    }
-  } catch (err) {
-    console.warn('[Supabase] Offline/Error syncing profile:', err);
+  } catch {
+    // Silent catch when Supabase is unreachable
   }
 }

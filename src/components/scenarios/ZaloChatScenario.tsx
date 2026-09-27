@@ -25,7 +25,7 @@ interface Message {
 }
 
 export default function ZaloChatScenario() {
-  const { applyScoreDelta, markScenarioCompleted, soundEnabled } = useAQStore();
+  const { applyScoreDelta, markScenarioCompleted, soundEnabled, user } = useAQStore();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'm1',
@@ -60,6 +60,7 @@ export default function ZaloChatScenario() {
   const [showDebrief, setShowDebrief] = useState(false);
   const [totalScenarioDelta, setTotalScenarioDelta] = useState({ c: 0, o: 0, r: 0, e: 0 });
   const [lastTip, setLastTip] = useState<string | null>(null);
+  const [sessionId] = useState(() => 'session-control-' + Date.now());
 
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
@@ -111,7 +112,8 @@ export default function ZaloChatScenario() {
             content: `${m.sender_name}: ${m.text}`,
           })),
           userMessage: text,
-          sessionId: 'session-control-' + Date.now(),
+          sessionId,
+          userId: user.id,
         }),
       });
 
@@ -140,19 +142,21 @@ export default function ZaloChatScenario() {
         setLastTip(data.coaching_tip);
       }
 
+      let finalDelta = totalScenarioDelta;
       if (data.score_delta) {
         applyScoreDelta(data.score_delta, 'control-zalo-panic');
-        setTotalScenarioDelta((prev) => ({
-          c: prev.c + (data.score_delta.c || 0),
-          o: prev.o + (data.score_delta.o || 0),
-          r: prev.r + (data.score_delta.r || 0),
-          e: prev.e + (data.score_delta.e || 0),
-        }));
+        finalDelta = {
+          c: totalScenarioDelta.c + (data.score_delta.c || 0),
+          o: totalScenarioDelta.o + (data.score_delta.o || 0),
+          r: totalScenarioDelta.r + (data.score_delta.r || 0),
+          e: totalScenarioDelta.e + (data.score_delta.e || 0),
+        };
+        setTotalScenarioDelta(finalDelta);
       }
 
       if (data.is_crisis_resolved) {
         setIsResolved(true);
-        markScenarioCompleted('control-zalo-panic', totalScenarioDelta);
+        markScenarioCompleted('control-zalo-panic', finalDelta);
         if (soundEnabled) {
           sound.playVictory();
         }

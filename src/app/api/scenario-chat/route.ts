@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { evaluateChatScenario } from '@/lib/nvidia';
 import { logSessionEvent } from '@/lib/supabase';
+import { logSessionEventToDb } from '@/lib/db';
 
 /**
  * /api/scenario-chat - Core AI Chat Scenario Handler
@@ -28,8 +29,20 @@ export async function POST(req: NextRequest) {
       userMessage
     );
 
-    // Persist session log to Supabase in background
+    // Persist session log to Railway PostgreSQL and Supabase in background
     if (sessionId) {
+      logSessionEventToDb({
+        session_id: sessionId,
+        scenario_id: scenarioId,
+        user_id: userId,
+        role: 'user',
+        message_content: userMessage,
+        extracted_core_delta: evaluation.score_delta,
+        is_crisis_resolved: evaluation.is_crisis_resolved,
+      }).catch((err) => {
+        console.warn('[Postgres session_logs] Notice:', err);
+      });
+
       logSessionEvent({
         session_id: sessionId,
         scenario_id: scenarioId,

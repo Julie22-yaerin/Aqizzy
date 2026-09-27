@@ -10,8 +10,7 @@ const nvidiaApiKey = process.env.NVIDIA_API_KEY || '';
 // Priority model list with automatic fallbacks
 const candidateModels = [
   process.env.NVIDIA_MODEL,
-  'meta/llama-3.3-70b-instruct',
-  'meta/llama-3.1-70b-instruct',
+  'meta/llama-3.2-11b-vision-instruct',
   'meta/llama-3.2-90b-vision-instruct',
   'nvidia/llama-3.1-nemotron-70b-instruct',
 ].filter(Boolean) as string[];

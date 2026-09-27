@@ -25,7 +25,7 @@ interface ClassroomMessage {
 }
 
 export default function HomeroomScenario() {
-  const { applyScoreDelta, markScenarioCompleted, soundEnabled } = useAQStore();
+  const { applyScoreDelta, markScenarioCompleted, soundEnabled, user } = useAQStore();
   const [messages, setMessages] = useState<ClassroomMessage[]>([
     {
       id: 'h1',
@@ -52,6 +52,7 @@ export default function HomeroomScenario() {
   const [showDebrief, setShowDebrief] = useState(false);
   const [totalScenarioDelta, setTotalScenarioDelta] = useState({ c: 0, o: 0, r: 0, e: 0 });
   const [lastTip, setLastTip] = useState<string | null>(null);
+  const [sessionId] = useState(() => 'session-ownership-' + Date.now());
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +103,8 @@ export default function HomeroomScenario() {
             content: `${m.speaker_title}: ${m.text}`,
           })),
           userMessage: text,
-          sessionId: 'session-ownership-' + Date.now(),
+          sessionId,
+          userId: user.id,
         }),
       });
 
@@ -130,14 +132,16 @@ export default function HomeroomScenario() {
         setLastTip(data.coaching_tip);
       }
 
+      let finalDelta = totalScenarioDelta;
       if (data.score_delta) {
         applyScoreDelta(data.score_delta, 'ownership-homeroom-period');
-        setTotalScenarioDelta((prev) => ({
-          c: prev.c + (data.score_delta.c || 0),
-          o: prev.o + (data.score_delta.o || 0),
-          r: prev.r + (data.score_delta.r || 0),
-          e: prev.e + (data.score_delta.e || 0),
-        }));
+        finalDelta = {
+          c: totalScenarioDelta.c + (data.score_delta.c || 0),
+          o: totalScenarioDelta.o + (data.score_delta.o || 0),
+          r: totalScenarioDelta.r + (data.score_delta.r || 0),
+          e: totalScenarioDelta.e + (data.score_delta.e || 0),
+        };
+        setTotalScenarioDelta(finalDelta);
 
         if (data.score_delta.o > 0) {
           setTeacherAnger((prev) => Math.max(20, prev - 35));
@@ -150,7 +154,7 @@ export default function HomeroomScenario() {
       if (data.is_crisis_resolved) {
         setIsResolved(true);
         setTeacherAnger(15);
-        markScenarioCompleted('ownership-homeroom-period', totalScenarioDelta);
+        markScenarioCompleted('ownership-homeroom-period', finalDelta);
         if (soundEnabled) sound.playVictory();
         confetti({
           particleCount: 80,
