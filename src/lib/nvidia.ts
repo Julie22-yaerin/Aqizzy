@@ -29,7 +29,7 @@ export const SYSTEM_PROMPTS = {
 TÌNH HUỐNG: "Cơn hoảng loạn Zalo lúc 9h tối Chủ Nhật" (Trụ cột C - CONTROL: Kiểm soát phản ứng & tình thế).
 BỐI CẢNH: 21:00 tối Chủ Nhật. Nhóm chat Zalo môn KHTN (Khoa học Tự nhiên) lớp 8A3 nổ tung tin nhắn. Cô giáo vừa nhắn đổi chủ đề làm mô hình sáng mai từ "Tế bào thực vật" sang "Hệ hô hấp ở người". Giờ này tiệm tạp hóa/văn phòng phẩm đã đóng cửa sạch sẽ.
 NHÂN VẬT BẠN PHẢI NHẬP VAI:
-1. Minh Khang (👦🏻): Học sinh hay lo âu, sợ điểm kém, sợ mẹ tịch thu điện thoại, đòi thức trắng đêm nặn đất sét dù không có đồ nghề. Giọng điệu: hoảng loạn, hớt hải, dùng từ "cứu tao với", "toang rồi", "mẹ tao cắt tiền tiêu vặt".
+1. Minh Khang (👦🏻): Học sinh hay lo âu, sợ điểm kém, sợ mẹ tịch thu điện thoại, đòi thức trắng đêm nặn đất sét dù không có đồ nghề. Giọng điệu: hoảng loạn, hớt hải, dùng từ "cứu mình với", "toang rồi", "mẹ mình cắt tiền tiêu vặt".
 2. Linh Chi (👧🏻): Bất cần, bực tức, đổ lỗi cho cô giáo vô lý, đòi bỏ cuộc xin điểm 0. Giọng điệu: cay cú, buông xuôi, "dẹp đi", "bất công quá", "chấp nhận 0 điểm".
 
 NGƯỜI DÙNG (USER): Đóng vai Bạn cùng nhóm (hoặc Nhóm trưởng) đang nhắn tin trong nhóm Zalo để xử lý tình huống.
@@ -39,7 +39,7 @@ TIÊU CHÍ ĐÁNH GIÁ CORE (Trọng tâm: C - CONTROL):
 - Low AQ (Mất kiểm soát): Hùa theo cơn hoảng loạn, chửi bới cô giáo, buông xuôi bỏ cuộc, hoặc ngoan cố đòi thức tới 3-4h sáng nặn mô hình khi không có vật liệu. (C: -8 đến -15, E: -5).
 
 QUY ĐỊNH PHẢN HỒI:
-- Bắt buộc nói tiếng Việt tự nhiên, chân thực như học sinh cấp 2 nhắn tin Zalo (có icon Zalo, từ ngữ đời thường, xưng hô tao/mày hoặc bạn/mình phù hợp ngữ cảnh bạn bè).
+- Bắt buộc nói tiếng Việt tự nhiên, thân thiện và văn minh của học sinh cấp 2 nhắn tin Zalo (có icon Zalo, từ ngữ đời thường, xưng hô bạn/mình, tuyệt đối không dùng mày/tao).
 - Nếu User đưa ra phương án khả thi (vẽ 2D trên giấy A3/A4, phân chia việc, sáng mai giải thích với cô) và thuyết phục được nhóm: Đặt is_crisis_resolved = true.
 - BẮT BUỘC trả về định dạng JSON thuần túy:
 {
@@ -85,31 +85,31 @@ function simulateVietnameseResponse(
   const text = userText.toLowerCase().trim();
 
   if (scenarioId === 'control-zalo-panic') {
-    const isCalming = /bình tĩnh|đừng lo|yên tâm|không sao|nghe tao|từ từ|hít sâu|đừng hoảng/.test(text);
+    const isCalming = /bình tĩnh|đừng lo|yên tâm|không sao|nghe mình|nghe tao|từ từ|hít sâu|đừng hoảng/.test(text);
     const has2DSolution = /vẽ|giấy|sơ đồ|a4|a3|2d|thuyết trình|tài liệu|in|chú thích|mô hình phẳng|phác thảo|màu dạ/.test(text);
-    const hasRoleAssignment = /phân công|mày làm|tao làm|khang vẽ|chi làm|chia việc/.test(text);
+    const hasRoleAssignment = /phân công|mày làm|tao làm|bạn làm|mình làm|khang vẽ|chi làm|chia việc/.test(text);
     const isPanickingOrComplaining = /thức trắng|bỏ đi|kệ đi|ghét cô|bất công|0 điểm|chửi|bực|cô điên|sợ quá|chết chắc|toang hẳn/.test(text);
 
     if ((isCalming || has2DSolution || hasRoleAssignment) && !isPanickingOrComplaining) {
       const isResolved = has2DSolution || chatHistoryLength >= 3;
       return {
         npc_reply: isResolved 
-          ? "Minh Khang: 'Ủa ý này hay quá tụi mày ơi!! 🎉 Nhà tao có sẵn tập giấy A3 với bộ bút lông màu của anh hai tao nè! Để tao vẽ phác thảo sơ đồ đường dẫn khí với 2 lá phổi liền!'\n\nLinh Chi: 'Ừ ha, vẽ sơ đồ 2D trên A3 vừa đẹp vừa nhanh. Tao sẽ soạn phần thuyết minh 3 phút và sáng mai 3 đứa mình lên sớm giải thích chân thành với cô Nga. May quá, tí nữa là tao dại dột buông xuôi rồi! Cảm ơn mày nha! 😭🙏'"
-          : "Minh Khang: 'Nghe cũng có lý... Nhưng mà mai cô có chịu chấm bài vẽ sơ đồ thay vì nặn đất sét 3D không mày? Tao run quá à!'\n\nLinh Chi: 'Tao thấy ít ra có bài nộp chỉn chu vẫn hơn là mai lên đứng chịu 0 điểm. Giờ phân công cụ thể đứa nào làm gì đi để còn bắt tay vào làm!'",
+          ? "Minh Khang: 'Ủa ý này hay quá các bạn ơi!! 🎉 Nhà mình có sẵn tập giấy A3 với bộ bút lông màu của anh hai mình nè! Để mình vẽ phác thảo sơ đồ đường dẫn khí với 2 lá phổi liền!'\n\nLinh Chi: 'Ừ ha, vẽ sơ đồ 2D trên A3 vừa đẹp vừa nhanh. Mình sẽ soạn phần thuyết minh 3 phút và sáng mai 3 đứa mình lên sớm giải thích chân thành với cô Nga. May quá, tí nữa là mình dại dột buông xuôi rồi! Cảm ơn bạn nha! 😭🙏'"
+          : "Minh Khang: 'Nghe cũng có lý... Nhưng mà mai cô có chịu chấm bài vẽ sơ đồ thay vì nặn đất sét 3D không bạn? Mình run quá à!'\n\nLinh Chi: 'Mình thấy ít ra có bài nộp chỉn chu vẫn hơn là mai lên đứng chịu 0 điểm. Giờ phân công cụ thể ai làm gì đi để còn bắt tay vào làm!'",
         score_delta: { c: 14, o: 5, r: 2, e: 4 },
         is_crisis_resolved: isResolved,
         coaching_tip: `Rất xuất sắc! Cách xử lý chuẩn:\n1. Bình tĩnh trấn an các bạn\n2. Đề xuất giải pháp có thể làm ngay (vẽ 2D)\n3. Phân công công việc rõ ràng\n4. Hẹn sáng mai giải thích với cô.`
       };
     } else if (isPanickingOrComplaining) {
       return {
-        npc_reply: "Linh Chi: 'Đấy thấy chưa, tao đã bảo rồi mà! Càng nghĩ càng thấy ức chế, cô muốn cho 0 điểm thì cho luôn đi, tao off mạng đi ngủ đây!'\n\nMinh Khang: 'Trời ơi Chi ơi đừng bỏ nhóm mà! Tao sợ mẹ tao la lắm, hu hu giờ biết làm sao bây giờ... 😭😭'",
+        npc_reply: "Linh Chi: 'Đấy thấy chưa, mình đã bảo rồi mà! Càng nghĩ càng thấy ức chế, cô muốn cho 0 điểm thì cho luôn đi, mình off mạng đi ngủ đây!'\n\nMinh Khang: 'Trời ơi Chi ơi đừng bỏ nhóm mà! Mình sợ mẹ mình la lắm, hu hu giờ biết làm sao bây giờ... 😭😭'",
         score_delta: { c: -10, o: -4, r: -5, e: -6 },
         is_crisis_resolved: false,
         coaching_tip: `Cách xử lý tốt hơn:\n1. Hít thở sâu để không bị cuốn theo sự hoảng loạn\n2. Trấn an tinh thần các bạn\n3. Tập trung vào việc mình CÓ THỂ làm bây giờ (vẽ giấy, dùng đồ có sẵn)\n4. Lập kế hoạch phân công cho ngày mai.`
       };
     } else {
       return {
-        npc_reply: "Minh Khang: 'Giờ tính sao đây cả nhà ơi? 9h15 rồi, sáng mai 6h45 là phải nộp bài rồi đó!'\n\nLinh Chi: 'Mày có cao kiến gì cụ thể không, chứ nói chung chung nãy giờ tao sốt ruột muốn nổ tung rồi nè!'",
+        npc_reply: "Minh Khang: 'Giờ tính sao đây cả nhà ơi? 9h15 rồi, sáng mai 6h45 là phải nộp bài rồi đó!'\n\nLinh Chi: 'Bạn có cao kiến gì cụ thể không, chứ nói chung chung nãy giờ mình sốt ruột muốn nổ tung rồi nè!'",
         score_delta: { c: 3, o: 1, r: 0, e: 0 },
         is_crisis_resolved: false,
         coaching_tip: `Hướng xử lý tiếp theo:\n1. Dừng than vãn và tập trung vào giải pháp\n2. Nhìn quanh nhà xem có vật liệu gì thay thế được (giấy, bút màu...)\n3. Đề xuất nhóm chuyển hướng sang làm mô hình 2D\n4. Phân công người vẽ, người thuyết trình.`

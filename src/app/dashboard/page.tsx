@@ -63,21 +63,32 @@ export default function DashboardPage() {
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className={`text-xs font-black px-2.5 py-1 rounded-xl ${
-                      scenario.core_focus === 'C' ? 'bg-blue-100 text-blue-700' :
-                      scenario.core_focus === 'O' ? 'bg-purple-100 text-purple-700' :
-                      scenario.core_focus === 'R' ? 'bg-amber-100 text-amber-700' :
-                      'bg-emerald-100 text-emerald-700'
-                    }`}>
-                      CORE: {scenario.core_focus}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs font-black px-2.5 py-1 rounded-xl ${
+                        scenario.core_focus === 'C' ? 'bg-blue-100 text-blue-700' :
+                        scenario.core_focus === 'O' ? 'bg-purple-100 text-purple-700' :
+                        scenario.core_focus === 'R' ? 'bg-amber-100 text-amber-700' :
+                        'bg-emerald-100 text-emerald-700'
+                      }`}>
+                        CORE: {scenario.core_focus}
+                      </span>
+                      <span className="text-xs font-semibold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600">
+                        {scenario.grade_level}
+                      </span>
+                    </div>
 
-                    {isDone && (
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Đã hoàn thành</span>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-bold text-slate-500 hidden sm:inline uppercase">
+                        {scenario.type === 'chat' ? 'Chat AI (Zalo/Lớp)' :
+                         scenario.type === 'swipe' ? 'Tinder Swipe UI' : 'Resource UI'}
+                      </span>
+                      {isDone && (
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+                          <CheckCircle2 className="w-4 h-4" />
+                          <span>Đã hoàn thành</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div>

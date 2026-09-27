@@ -40,7 +40,7 @@ export default function HomeroomScenario() {
       speaker: 'nam',
       speaker_title: 'Nam (Thành viên vi phạm)',
       avatar: '👦🏽',
-      text: '(Cúi gằm mặt xuống bàn, hai tay run bần bật, lí nhí): "Tổ trưởng ơi tao xin lỗi... tao không nghĩ bị thầy Giám thị ghi vào sổ..."',
+      text: '(Cúi gằm mặt xuống bàn, hai tay run bần bật, lí nhí): "Tổ trưởng ơi mình xin lỗi... mình không nghĩ bị thầy Giám thị ghi vào sổ..."',
       is_user: false,
     },
   ]);
@@ -422,7 +422,7 @@ export default function HomeroomScenario() {
               speaker: 'nam',
               speaker_title: 'Nam (Thành viên vi phạm)',
               avatar: '👦🏽',
-              text: '(Cúi gằm mặt xuống bàn, hai tay run bần bật, lí nhí): "Tổ trưởng ơi tao xin lỗi... tao không nghĩ bị thầy Giám thị ghi vào sổ..."',
+              text: '(Cúi gằm mặt xuống bàn, hai tay run bần bật, lí nhí): "Tổ trưởng ơi mình xin lỗi... mình không nghĩ bị thầy Giám thị ghi vào sổ..."',
               is_user: false,
             },
           ]);

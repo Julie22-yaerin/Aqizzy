@@ -31,7 +31,7 @@ export default function ZaloChatScenario() {
       id: 'm1',
       sender: 'minh_khang',
       sender_name: 'Minh Khang',
-      text: 'Trời ơi cứu tao với tụi mày ơi!! 😭😭 Cô KHTN vừa nhắn trên Zalo đổi đề tài mô hình sáng mai sang HỆ HÔ HẤP rồi!! Mô hình tế bào tao với tụi mày dán xốp xong hết rồi mà!',
+      text: 'Trời ơi cứu mình với các bạn ơi!! 😭😭 Cô KHTN vừa nhắn trên Zalo đổi đề tài mô hình sáng mai sang HỆ HÔ HẤP rồi!! Mô hình tế bào mình với các bạn dán xốp xong hết rồi mà!',
       timestamp: '21:01',
       is_user: false,
     },
@@ -39,7 +39,7 @@ export default function ZaloChatScenario() {
       id: 'm2',
       sender: 'linh_chi',
       sender_name: 'Linh Chi',
-      text: 'Cái gì??? 9h tối Chủ Nhật cô mới nhắn đổi??? Giờ này tiệm tạp hóa đóng cửa sạch rồi lấy đâu ra đồ mà làm? Thôi tao dẹp, mai lên xin cô cho 0 điểm luôn đi, làm sao mà kịp được!',
+      text: 'Cái gì??? 9h tối Chủ Nhật cô mới nhắn đổi??? Giờ này tiệm tạp hóa đóng cửa sạch rồi lấy đâu ra đồ mà làm? Thôi mình dẹp, mai lên xin cô cho 0 điểm luôn đi, làm sao mà kịp được!',
       timestamp: '21:02',
       is_user: false,
     },
@@ -47,7 +47,7 @@ export default function ZaloChatScenario() {
       id: 'm3',
       sender: 'minh_khang',
       sender_name: 'Minh Khang',
-      text: 'Không được đâu Chi ơi, điểm hệ số 2 đó!! Mai mà bị 0 điểm mẹ tao cắt tiền tiêu vặt với tịch thu điện thoại luôn á 😭 Hay là thức trắng đêm nay nặn đất sét đi, tao sợ quá!',
+      text: 'Không được đâu Chi ơi, điểm hệ số 2 đó!! Mai mà bị 0 điểm mẹ mình cắt tiền tiêu vặt với tịch thu điện thoại luôn á 😭 Hay là thức trắng đêm nay nặn đất sét đi, mình sợ quá!',
       timestamp: '21:03',
       is_user: false,
     },
@@ -71,15 +71,15 @@ export default function ZaloChatScenario() {
   const quickPrompts = [
     {
       label: '💡 Đề xuất phương án 2D (High AQ)',
-      text: 'Bình tĩnh nào hai bạn! Giờ tiệm đóng cửa rồi thức trắng đêm cũng không có đồ làm 3D đâu. Nhà tao có sẵn giấy A3 với bút màu dạ, tối nay tụi mình làm sơ đồ giải phẫu hệ hô hấp dạng 2D thật đẹp. Sáng mai tao sẽ đại diện nhóm lên nói thật với cô về thông báo gấp.',
+      text: 'Bình tĩnh nào hai bạn! Giờ tiệm đóng cửa rồi thức trắng đêm cũng không có đồ làm 3D đâu. Nhà mình có sẵn giấy A3 với bút màu dạ, tối nay tụi mình làm sơ đồ giải phẫu hệ hô hấp dạng 2D thật đẹp. Sáng mai mình sẽ đại diện nhóm lên nói thật với cô về thông báo gấp.',
     },
     {
       label: '🤝 Phân chia công việc ngay',
-      text: 'Đừng hoảng! Khang phụ trách vẽ đường thở khí quản và hai lá phổi, Chi tìm thông tin chú thích các bộ phận, còn tao chuẩn bị bài thuyết trình 3 phút. Mai lên sớm trước 15 phút ráp lại là xong!',
+      text: 'Đừng hoảng! Khang phụ trách vẽ đường thở khí quản và hai lá phổi, Chi tìm thông tin chú thích các bộ phận, còn mình chuẩn bị bài thuyết trình 3 phút. Mai lên sớm trước 15 phút ráp lại là xong!',
     },
     {
       label: '⚠️ Đổ lỗi và hoảng loạn (Low AQ)',
-      text: 'Tao cũng điên mất thôi! Cô giáo làm ăn kiểu gì kỳ cục vậy, 9h tối mới nhắn! Hay là kệ đi, mai cả nhóm không nộp xem cô làm gì được!',
+      text: 'Mình cũng điên mất thôi! Cô giáo làm ăn kiểu gì kỳ cục vậy, 9h tối mới nhắn! Hay là kệ đi, mai cả nhóm không nộp xem cô làm gì được!',
     },
   ];
 
@@ -185,6 +185,7 @@ export default function ZaloChatScenario() {
               <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
                 CORE: Control (Kiểm soát)
               </span>
+              <span className="text-blue-100 text-xs font-medium">Lớp 7 - 8</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight">
               The 9 PM Sunday Zalo Panic
@@ -415,7 +416,7 @@ export default function ZaloChatScenario() {
               id: 'm1',
               sender: 'minh_khang',
               sender_name: 'Minh Khang',
-              text: 'Trời ơi cứu tao với tụi mày ơi!! 😭😭 Cô KHTN vừa nhắn trên Zalo đổi đề tài mô hình sáng mai sang HỆ HÔ HẤP rồi!! Mô hình tế bào tao với tụi mày dán xốp xong hết rồi mà!',
+              text: 'Trời ơi cứu mình với các bạn ơi!! 😭😭 Cô KHTN vừa nhắn trên Zalo đổi đề tài mô hình sáng mai sang HỆ HÔ HẤP rồi!! Mô hình tế bào mình với các bạn dán xốp xong hết rồi mà!',
               timestamp: '21:01',
               is_user: false,
             },
@@ -423,7 +424,7 @@ export default function ZaloChatScenario() {
               id: 'm2',
               sender: 'linh_chi',
               sender_name: 'Linh Chi',
-              text: 'Cái gì??? 9h tối Chủ Nhật cô mới nhắn đổi??? Giờ này tiệm tạp hóa đóng cửa sạch rồi lấy đâu ra đồ mà làm? Thôi tao dẹp, mai lên xin cô cho 0 điểm luôn đi, làm sao mà kịp được!',
+              text: 'Cái gì??? 9h tối Chủ Nhật cô mới nhắn đổi??? Giờ này tiệm tạp hóa đóng cửa sạch rồi lấy đâu ra đồ mà làm? Thôi mình dẹp, mai lên xin cô cho 0 điểm luôn đi, làm sao mà kịp được!',
               timestamp: '21:02',
               is_user: false,
             },
@@ -431,7 +432,7 @@ export default function ZaloChatScenario() {
               id: 'm3',
               sender: 'minh_khang',
               sender_name: 'Minh Khang',
-              text: 'Không được đâu Chi ơi, điểm hệ số 2 đó!! Mai mà bị 0 điểm mẹ tao cắt tiền tiêu vặt với tịch thu điện thoại luôn á 😭 Hay là thức trắng đêm nay nặn đất sét đi, tao sợ quá!',
+              text: 'Không được đâu Chi ơi, điểm hệ số 2 đó!! Mai mà bị 0 điểm mẹ mình cắt tiền tiêu vặt với tịch thu điện thoại luôn á 😭 Hay là thức trắng đêm nay nặn đất sét đi, mình sợ quá!',
               timestamp: '21:03',
               is_user: false,
             },

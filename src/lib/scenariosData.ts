@@ -36,7 +36,7 @@ export const INJECTED_SCENARIOS: Scenario[] = [
           id: 'm1',
           sender: 'minh_khang',
           sender_name: 'Minh Khang',
-          text: 'Trời ơi cứu tao với tụi mày ơi!! 😭😭 Cô KHTN vừa nhắn trên Zalo đổi đề tài mô hình sáng mai sang HỆ HÔ HẤP rồi!! Mô hình tế bào tao với tụi mày dán xốp xong hết rồi mà!',
+          text: 'Trời ơi cứu mình với các bạn ơi!! 😭😭 Cô KHTN vừa nhắn trên Zalo đổi đề tài mô hình sáng mai sang HỆ HÔ HẤP rồi!! Mô hình tế bào mình với các bạn dán xốp xong hết rồi mà!',
           timestamp: '21:01',
           is_user: false
         },
@@ -44,7 +44,7 @@ export const INJECTED_SCENARIOS: Scenario[] = [
           id: 'm2',
           sender: 'linh_chi',
           sender_name: 'Linh Chi',
-          text: 'Cái gì??? 9h tối Chủ Nhật cô mới nhắn đổi??? Giờ này tiệm tạp hóa đóng cửa sạch rồi lấy đâu ra đồ mà làm? Thôi tao dẹp, mai lên xin cô cho 0 điểm luôn đi, làm sao mà kịp được!',
+          text: 'Cái gì??? 9h tối Chủ Nhật cô mới nhắn đổi??? Giờ này tiệm tạp hóa đóng cửa sạch rồi lấy đâu ra đồ mà làm? Thôi mình dẹp, mai lên xin cô cho 0 điểm luôn đi, làm sao mà kịp được!',
           timestamp: '21:02',
           is_user: false
         },
@@ -52,7 +52,7 @@ export const INJECTED_SCENARIOS: Scenario[] = [
           id: 'm3',
           sender: 'minh_khang',
           sender_name: 'Minh Khang',
-          text: 'Không được đâu Chi ơi, điểm hệ số 2 đó!! Mai mà bị 0 điểm mẹ tao cắt tiền tiêu vặt với tịch thu điện thoại luôn á 😭 Hay là thức trắng đêm nay nặn đất sét đi, tao sợ quá!',
+          text: 'Không được đâu Chi ơi, điểm hệ số 2 đó!! Mai mà bị 0 điểm mẹ mình cắt tiền tiêu vặt với tịch thu điện thoại luôn á 😭 Hay là thức trắng đêm nay nặn đất sét đi, mình sợ quá!',
           timestamp: '21:03',
           is_user: false
         }

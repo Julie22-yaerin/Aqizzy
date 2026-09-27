@@ -21,7 +21,7 @@ async function runTests() {
   const controlTest1 = await evaluateChatScenario(
     'control-zalo-panic',
     [],
-    'Tụi mày bình tĩnh nghe tao nói này! Giờ tiệm tạp hóa đóng cửa rồi nặn 3D không kịp đâu. Nhà tao có sẵn giấy A3 với bút màu, tụi mình vẽ sơ đồ 2D giải phẫu hệ hô hấp chú thích rõ ràng. Khang vẽ đẹp thì vẽ, Chi với tao làm bài thuyết trình 3 phút, mai lên sớm gặp cô giải thích lý do khách quan.'
+    'Các bạn bình tĩnh nghe mình nói này! Giờ tiệm tạp hóa đóng cửa rồi nặn 3D không kịp đâu. Nhà mình có sẵn giấy A3 với bút màu, tụi mình vẽ sơ đồ 2D giải phẫu hệ hô hấp chú thích rõ ràng. Khang vẽ đẹp thì vẽ, Chi với mình làm bài thuyết trình 3 phút, mai lên sớm gặp cô giải thích lý do khách quan.'
   );
   console.log('Result (High AQ):', {
     crisis_resolved: controlTest1.is_crisis_resolved,
@@ -46,7 +46,7 @@ async function runTests() {
     'control-zalo-panic',
     'Cơn hoảng loạn Zalo lúc 9h tối Chủ Nhật',
     [
-      { role: 'user', message_content: 'Tụi mày bình tĩnh lại, tụi mình vẽ sơ đồ 2D trên giấy A3 có sẵn rồi mai lên gặp cô giải thích.' }
+      { role: 'user', message_content: 'Các bạn bình tĩnh lại, tụi mình vẽ sơ đồ 2D trên giấy A3 có sẵn rồi mai lên gặp cô giải thích.' }
     ],
     { c: 65, o: 55, r: 50, e: 52 }
   );
