@@ -87,7 +87,11 @@ export default function Header() {
             }`}
           >
             <span className="text-base">{(!user.avatar_url || user.avatar_url.startsWith('http')) ? '🎓' : user.avatar_url}</span>
-            <span className="hidden lg:inline">{user.display_name}</span>
+            <span className="hidden lg:inline">
+              {(user.display_name?.includes('googleusercontent') || user.display_name?.startsWith('http'))
+                ? 'Học sinh Cấp 2'
+                : user.display_name}
+            </span>
           </Link>
 
           {/* Sound Toggle */}

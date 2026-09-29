@@ -61,7 +61,9 @@ export default function ProfilePage() {
               ) : (
                 <>
                   <h1 className="text-xl sm:text-2xl font-black text-slate-900">
-                    {user.display_name}
+                    {(user.display_name?.includes('googleusercontent') || user.display_name?.startsWith('http'))
+                      ? 'Học sinh Cấp 2'
+                      : user.display_name}
                   </h1>
                   <button
                     onClick={() => setIsEditingName(true)}

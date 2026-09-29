@@ -12,9 +12,17 @@ import DebriefRoomModal from '@/components/scenarios/DebriefRoomModal';
 
 interface Props {
   cards: SwipeCardItem[];
+  scenarioId?: string;
+  title?: string;
+  subtitle?: string;
 }
 
-export default function SwipeCardScenario({ cards }: Props) {
+export default function SwipeCardScenario({
+  cards,
+  scenarioId = 'reach-math-test',
+  title = 'The 45-Minute Math Test Disaster (Bài kiểm tra 4 điểm)',
+  subtitle = 'Khoanh vùng thất bại: Vuốt Trái để LOẠI BỎ suy nghĩ tiêu cực lan tỏa, Vuốt Phải để GIỮ LẠI suy nghĩ cô lập vấn đề!',
+}: Props) {
   const { applyScoreDelta, markScenarioCompleted, soundEnabled } = useAQStore();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -37,7 +45,7 @@ export default function SwipeCardScenario({ cards }: Props) {
     }
 
     const delta = isCorrect ? 10 : -5;
-    applyScoreDelta({ r: delta }, 'reach-math-test-disaster');
+    applyScoreDelta({ r: delta }, scenarioId);
 
     setStats((prev) => ({
       correct: prev.correct + (isCorrect ? 1 : 0),
@@ -51,7 +59,7 @@ export default function SwipeCardScenario({ cards }: Props) {
       setCurrentIndex((prev) => prev + 1);
     } else {
       setIsFinished(true);
-      markScenarioCompleted('reach-math-test-disaster', { c: 0, o: 0, r: stats.totalScoreDelta, e: 0 });
+      markScenarioCompleted(scenarioId, { c: 0, o: 0, r: stats.totalScoreDelta, e: 0 });
       if (soundEnabled) sound.playVictory();
       confetti({
         particleCount: 80,
@@ -82,10 +90,10 @@ export default function SwipeCardScenario({ cards }: Props) {
               </span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight">
-              The 45-Minute Math Test Disaster (Bài kiểm tra 4 điểm)
+              {title}
             </h1>
             <p className="text-amber-100 text-xs sm:text-sm mt-1 max-w-xl">
-              Khoanh vùng thất bại: <strong>Vuốt Trái</strong> để LOẠI BỎ suy nghĩ tiêu cực lan tỏa, <strong>Vuốt Phải</strong> để GIỮ LẠI suy nghĩ cô lập vấn đề!
+              {subtitle}
             </p>
           </div>
 

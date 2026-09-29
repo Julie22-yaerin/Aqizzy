@@ -31,16 +31,18 @@ export interface AQProfile {
   updated_at?: string;
 }
 
-export type ScenarioType = 'chat' | 'swipe' | 'resource';
+export type ScenarioType = 'chat' | 'swipe' | 'resource' | 'matrix' | 'branching' | 'trash_sort' | 'calendar';
 
 export interface Scenario {
   id: string;
+  game_number?: number;
   type: ScenarioType;
   core_focus: CoreDimension;
   title: string;
   grade_level: string;
   description: string;
   thumbnail_icon: string;
+  path: string;
   content_json: any;
   created_at?: string;
 }

@@ -11,9 +11,17 @@ import DebriefRoomModal from '@/components/scenarios/DebriefRoomModal';
 
 interface Props {
   days: ResourceDay[];
+  scenarioId?: string;
+  title?: string;
+  subtitle?: string;
 }
 
-export default function ResourceScenario({ days }: Props) {
+export default function ResourceScenario({
+  days,
+  scenarioId = 'endurance-may-exam-crush',
+  title = 'The May Exam Crush (Cơn lốc mùa thi tháng Năm)',
+  subtitle = 'Quản lý tài nguyên Năng lượng & Căng thẳng sống sót qua 7 ngày cam go trước kỳ thi Học kì II!',
+}: Props) {
   const { applyScoreDelta, markScenarioCompleted, soundEnabled } = useAQStore();
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [energy, setEnergy] = useState(80); // Starts at 80%
@@ -41,7 +49,7 @@ export default function ResourceScenario({ days }: Props) {
     setEnergy(newEnergy);
     setStress(newStress);
     setEnduranceDelta(newEndurance);
-    applyScoreDelta({ e: choice.endurance_score }, 'endurance-may-exam-crush');
+    applyScoreDelta({ e: choice.endurance_score }, scenarioId);
 
     setActionHistory((prev) => [
       ...prev,
@@ -74,7 +82,7 @@ export default function ResourceScenario({ days }: Props) {
       setCurrentDayIndex((prev) => prev + 1);
     } else {
       setIsCompleted(true);
-      markScenarioCompleted('endurance-may-exam-crush', { c: 0, o: 0, r: 0, e: enduranceDelta });
+      markScenarioCompleted(scenarioId, { c: 0, o: 0, r: 0, e: enduranceDelta });
       if (soundEnabled) sound.playVictory();
       confetti({
         particleCount: 90,
@@ -110,10 +118,10 @@ export default function ResourceScenario({ days }: Props) {
               </span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight">
-              The May Exam Crush (Cơn lốc mùa thi tháng Năm)
+              {title}
             </h1>
             <p className="text-emerald-100 text-xs sm:text-sm mt-1 max-w-xl">
-              Quản lý tài nguyên Năng lượng & Căng thẳng sống sót qua 7 ngày cam go trước kỳ thi Học kì II!
+              {subtitle}
             </p>
           </div>
 
