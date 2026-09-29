@@ -68,21 +68,6 @@ export default function ZaloChatScenario() {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  const quickPrompts = [
-    {
-      label: '💡 Đề xuất phương án 2D (High AQ)',
-      text: 'Bình tĩnh nào hai bạn! Giờ tiệm đóng cửa rồi thức trắng đêm cũng không có đồ làm 3D đâu. Nhà mình có sẵn giấy A3 với bút màu dạ, tối nay tụi mình làm sơ đồ giải phẫu hệ hô hấp dạng 2D thật đẹp. Sáng mai mình sẽ đại diện nhóm lên nói thật với cô về thông báo gấp.',
-    },
-    {
-      label: '🤝 Phân chia công việc ngay',
-      text: 'Đừng hoảng! Khang phụ trách vẽ đường thở khí quản và hai lá phổi, Chi tìm thông tin chú thích các bộ phận, còn mình chuẩn bị bài thuyết trình 3 phút. Mai lên sớm trước 15 phút ráp lại là xong!',
-    },
-    {
-      label: '⚠️ Đổ lỗi và hoảng loạn (Low AQ)',
-      text: 'Mình cũng điên mất thôi! Cô giáo làm ăn kiểu gì kỳ cục vậy, 9h tối mới nhắn! Hay là kệ đi, mai cả nhóm không nộp xem cô làm gì được!',
-    },
-  ];
-
   const handleSendMessage = async (textToSend?: string) => {
     const text = textToSend || inputText.trim();
     if (!text || isTyping) return;
@@ -318,20 +303,6 @@ export default function ZaloChatScenario() {
           )}
 
           <div ref={chatBottomRef} />
-        </div>
-
-        {/* Quick Suggestion Chips */}
-        <div className="px-4 py-2 bg-slate-50 border-t border-slate-200 overflow-x-auto flex gap-2 scrollbar-none">
-          {quickPrompts.map((p, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleSendMessage(p.text)}
-              disabled={isTyping || isResolved}
-              className="flex-shrink-0 text-xs font-semibold px-3 py-1.5 bg-white border border-slate-200 text-slate-700 hover:border-blue-500 hover:text-blue-600 rounded-xl transition-all shadow-2xs disabled:opacity-50"
-            >
-              {p.label}
-            </button>
-          ))}
         </div>
 
         {/* Input Bar */}

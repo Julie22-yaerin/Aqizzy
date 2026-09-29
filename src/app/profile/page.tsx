@@ -38,7 +38,7 @@ export default function ProfilePage() {
       <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-brand-600 to-indigo-600 text-white flex items-center justify-center text-4xl shadow-lg shadow-brand-500/20">
-            {user.avatar_url || '🎓'}
+            {(!user.avatar_url || user.avatar_url.startsWith('http')) ? '🎓' : user.avatar_url}
           </div>
 
           <div className="space-y-1 text-center sm:text-left">

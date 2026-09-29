@@ -75,9 +75,15 @@ export const useAQStore = create<AQState>()(
       },
 
       setUser: (userData: Partial<User>) => {
-        set((state) => ({
-          user: { ...state.user, ...userData },
-        }));
+        set((state) => {
+          let avatar = userData.avatar_url ?? state.user.avatar_url;
+          if (avatar && (avatar.startsWith('http://') || avatar.startsWith('https://'))) {
+            avatar = '🎓';
+          }
+          return {
+            user: { ...state.user, ...userData, avatar_url: avatar || '🎓' },
+          };
+        });
         syncProgressToCloud(get());
       },
 
@@ -133,6 +139,11 @@ export const useAQStore = create<AQState>()(
           const level = cloudData.current_level || computeCurrentLevel(total);
           const displayName = cloudData.displayName || state.user.display_name;
 
+          let cloudAvatar = state.user.avatar_url;
+          if (!cloudAvatar || cloudAvatar.startsWith('http://') || cloudAvatar.startsWith('https://')) {
+            cloudAvatar = '🎓';
+          }
+
           return {
             scores: chosenScores,
             totalAQ: total,
@@ -141,6 +152,7 @@ export const useAQStore = create<AQState>()(
               ...state.user,
               display_name: displayName,
               current_level: level,
+              avatar_url: cloudAvatar,
             },
           };
         });
@@ -175,6 +187,11 @@ export const useAQStore = create<AQState>()(
               removeItem: () => {},
             }
       ),
+      onRehydrateStorage: () => (state) => {
+        if (state?.user?.avatar_url && (state.user.avatar_url.startsWith('http://') || state.user.avatar_url.startsWith('https://'))) {
+          state.user.avatar_url = '🎓';
+        }
+      },
     }
   )
 );

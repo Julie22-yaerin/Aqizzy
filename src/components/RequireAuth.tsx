@@ -51,10 +51,11 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
           });
         }
 
+        const safeAvatar = (user.avatar_url && !user.avatar_url.startsWith('http')) ? user.avatar_url : '🎓';
         setUser({
           id: firebaseUser.uid,
           display_name: resolvedDisplayName,
-          avatar_url: firebaseUser.photoURL || user.avatar_url || '🎓',
+          avatar_url: safeAvatar,
         });
 
         initializedUidRef.current = firebaseUser.uid;
@@ -63,7 +64,7 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
         setUser({
           id: firebaseUser.uid,
           display_name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Học sinh Cấp 2',
-          avatar_url: firebaseUser.photoURL || '🎓',
+          avatar_url: '🎓',
         });
         initializedUidRef.current = firebaseUser.uid;
       }

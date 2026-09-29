@@ -60,21 +60,6 @@ export default function HomeroomScenario() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isEvaluating]);
 
-  const tacticalChoices = [
-    {
-      label: '🛡️ Nhận trách nhiệm Tổ trưởng & Xin nhận phạt chung (High AQ)',
-      text: 'Thưa cô, em xin nhận trách nhiệm với tư cách là Tổ trưởng. Lỗi là do em chưa sâu sát và đôn đốc các bạn trong giờ truy bài. Em không bao biện cho bạn Nam, nhưng em xin cô cho em cùng bạn Nam chịu hình phạt trực nhật lớp suốt tuần sau để chuộc lại điểm thi đua cho lớp ạ.',
-    },
-    {
-      label: '🤝 Đề xuất kế hoạch giám sát cụ thể',
-      text: 'Thưa cô, em xin nhận lỗi vì thiếu sót trong quản lý. Từ thứ Hai tới, em cam kết sẽ kiểm tra hộc bàn của cả tổ vào lúc 6h50 trước giờ truy bài và nhắc nhở 100% các bạn không mang đồ ăn vào lớp.',
-    },
-    {
-      label: '❌ Chối bỏ và đùn đẩy trách nhiệm (Low AQ)',
-      text: 'Thưa cô, bạn Nam tự mua bánh tráng trộn ăn rồi vứt rác chứ em có xả đâu ạ! Lúc đó em đang chép bài tập, em không hề biết gì hết! Lỗi của ai thì cô phạt người đó chứ đừng mắng cả tổ em!',
-    },
-  ];
-
   const handleSendAction = async (textToSend?: string) => {
     const text = textToSend || inputText.trim();
     if (!text || isEvaluating) return;
@@ -315,20 +300,6 @@ export default function HomeroomScenario() {
           )}
 
           <div ref={bottomRef} />
-        </div>
-
-        {/* Suggestion / Tactical Action Chips */}
-        <div className="px-4 py-2.5 bg-slate-100/80 border-t border-slate-200 overflow-x-auto flex gap-2 scrollbar-none">
-          {tacticalChoices.map((c, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleSendAction(c.text)}
-              disabled={isEvaluating || isResolved}
-              className="flex-shrink-0 text-xs font-semibold px-3.5 py-1.5 bg-white border border-slate-200 text-slate-800 hover:border-purple-500 hover:text-purple-700 rounded-xl transition-all shadow-2xs disabled:opacity-50"
-            >
-              {c.label}
-            </button>
-          ))}
         </div>
 
         {/* Freeform input */}

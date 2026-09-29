@@ -45,7 +45,7 @@ export async function syncProgressToCloud(payload: ProgressSyncPayload): Promise
         userId: currentUid,
         displayName: payload.user.display_name,
         currentLevel: payload.user.current_level,
-        avatarUrl: payload.user.avatar_url,
+        avatarUrl: (!payload.user.avatar_url || payload.user.avatar_url.startsWith('http')) ? '🎓' : payload.user.avatar_url,
         scores: payload.scores,
         completedScenarios: payload.completedScenarios,
         lastScenarioCompleted: Object.keys(payload.completedScenarios).pop() || null,
@@ -118,7 +118,7 @@ export async function loadUserProgress(uid: string): Promise<CloudUserProgress |
           completedScenarios: data.completedScenarios || {},
           displayName: data.user?.display_name,
           current_level: data.user?.current_level,
-          avatar_url: data.user?.avatar_url,
+          avatar_url: (!data.user?.avatar_url || data.user.avatar_url.startsWith('http')) ? '🎓' : data.user.avatar_url,
         };
       }
     }
@@ -139,7 +139,7 @@ export async function loadUserProgress(uid: string): Promise<CloudUserProgress |
           completedScenarios: data.completedScenarios || {},
           displayName: data.displayName || data.display_name,
           current_level: data.current_level,
-          avatar_url: data.avatar_url || data.photoURL,
+          avatar_url: (!data.avatar_url || data.avatar_url.startsWith('http')) ? '🎓' : data.avatar_url,
         };
       }
     }

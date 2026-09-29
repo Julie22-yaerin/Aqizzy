@@ -86,7 +86,7 @@ export default function Header() {
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
-            <span className="text-base">{user.avatar_url || '🎓'}</span>
+            <span className="text-base">{(!user.avatar_url || user.avatar_url.startsWith('http')) ? '🎓' : user.avatar_url}</span>
             <span className="hidden lg:inline">{user.display_name}</span>
           </Link>
 

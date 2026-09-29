@@ -54,6 +54,8 @@ export async function saveUserProgressToDb(data: {
   try {
     await client.query('BEGIN');
 
+    const safeAvatarUrl = (!data.avatarUrl || data.avatarUrl.startsWith('http')) ? '🎓' : data.avatarUrl;
+
     await client.query(
       `
       INSERT INTO users (id, display_name, current_level, avatar_url, updated_at)
@@ -64,7 +66,7 @@ export async function saveUserProgressToDb(data: {
         avatar_url = COALESCE(EXCLUDED.avatar_url, users.avatar_url),
         updated_at = NOW();
       `,
-      [data.userId, data.displayName, data.currentLevel || null, data.avatarUrl || null]
+      [data.userId, data.displayName, data.currentLevel || null, safeAvatarUrl]
     );
 
     await client.query(
@@ -152,7 +154,7 @@ export async function getUserProgressFromDb(userId: string): Promise<UserProgres
         id: row.id,
         display_name: row.display_name,
         current_level: row.current_level,
-        avatar_url: row.avatar_url,
+        avatar_url: (!row.avatar_url || row.avatar_url.startsWith('http')) ? '🎓' : row.avatar_url,
       },
       scores,
       totalAQ,
